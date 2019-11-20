@@ -31,6 +31,6 @@ Dependencias backend:
 
 #### 4. Resultado final
 
-<align="center">
+<h3 align="center">
 <img src="https://res.cloudinary.com/jonabf1/image/upload/v1574228490/Captura_de_Tela_2019-11-20_a%CC%80s_02.31.31_cogjk3.png" alt="ilustration" />
 </align>
