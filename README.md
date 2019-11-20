@@ -12,9 +12,7 @@
 
 A aplicação que iremos dar início ao desenvolvimento a partir de agora é um app gerenciador de academia, o **Gympoint**.
 
-### Um pouco sobre as ferramentas
-
-Dependencias backend:
+### :rocket: Dependências usadas:
 
 - Express
 - Nodemon;
