@@ -10,7 +10,7 @@
 
 ## :rocket: Sobre o desafio
 
-A aplicação que iremos dar início ao desenvolvimento a partir de agora é um app gerenciador de academia, o **Gympoint**.
+Iremos dar início ao desenvolvimento a partir de agora é um app gerenciador de academia, o **Gympoint**.
 
 ### :rocket: Dependências usadas:
 
