@@ -1,4 +1,3 @@
-# bootcamp-gostack-desafio-03
 <h1 align="center">
   <img alt="Gympoint" title="Gympoint" src="https://raw.githubusercontent.com/Rocketseat/bootcamp-gostack-desafio-02/master/.github/logo.png" width="200px" />
 </h1>
