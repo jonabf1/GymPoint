@@ -1,13 +1,7 @@
 # bootcamp-gostack-desafio-03
 <h1 align="center">
-  <img alt="Gympoint" title="Gympoint" src="https://raw.githubusercontent.com/Rocketseat/bootcamp-gostack-desafio-02/master/.github/logo.png" width="120px" />
- <img alt="Gympoint" title="Gympoint" src="https://rocketseat.com.br/static/images/update/curso-nodejs.svg" width="120px"/>
+  <img alt="Gympoint" title="Gympoint" src="https://raw.githubusercontent.com/Rocketseat/bootcamp-gostack-desafio-02/master/.github/logo.png" width="200px" />
 </h1>
-
-<h3 align="center">
-  Desafio 3: Gympoint, continuação da API
-</h3>
-
 
 ## :rocket: Sobre o desafio
 
