@@ -2,11 +2,11 @@
   <img alt="Gympoint" title="Gympoint" src="https://raw.githubusercontent.com/Rocketseat/bootcamp-gostack-desafio-02/master/.github/logo.png" width="200px" />
 </p>
 
-## :rocket: Sobre o desafio
+## :rocket: About
 
-Iremos dar início ao desenvolvimento de um app gerenciador de academia, o **Gympoint**.
+We will start developing a gym manager app, the **Gympoint**.
 
-### :rocket: 1. Dependências usadas:
+### :rocket: 1. Dependencies used:
 
 - Express
 - Nodemon;
@@ -21,8 +21,14 @@ Iremos dar início ao desenvolvimento de um app gerenciador de academia, o **Gym
 - date-fns
 - dotenv
 
-### :rocket: 2. Resultado final (no MailTrap)
+### :rocket: 2. Final result (in MailTrap)
 
 <p align="center">
 <img src="https://res.cloudinary.com/jonabf1/image/upload/v1574228490/Captura_de_Tela_2019-11-20_a%CC%80s_02.31.31_cogjk3.png" alt="ilustration" />
 </align>
+
+<hr/>
+
+<p align="center">
+Made with ♥ by <a href="https://www.linkedin.com/in/jonathan-barros-franco">Jonathan</a>
+</p>
