@@ -2,7 +2,6 @@ const Yup = require('yup');
 const Student = require('../models/Student');
 const HelpOrder = require('../models/HelpOrder');
 
-
 class StudentHelpOrderController {
   async store(req, res) {
     const schema = Yup.object().shape({

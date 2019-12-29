@@ -4,16 +4,22 @@ const User = require('../models/User');
 class UserController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string().email().required(),
+      email: Yup.string()
+        .email()
+        .required(),
       name: Yup.string().required(),
-      password: Yup.string().required().min(6),
+      password: Yup.string()
+        .required()
+        .min(6),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const AlredyExists = await User.findOne({ where: { email: req.body.email } });
+    const AlredyExists = await User.findOne({
+      where: { email: req.body.email },
+    });
 
     if (AlredyExists) {
       return res.status(400).json({ error: 'Email alredy used' });
@@ -24,7 +30,7 @@ class UserController {
       email,
       name,
       password,
-      provider: true, // para admins
+      provider: true,
     });
 
     return res.json(user);

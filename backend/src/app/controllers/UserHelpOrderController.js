@@ -21,11 +21,13 @@ class HelpOrderController {
       where: {
         id,
       },
-      include: [{
-        model: Student,
-        as: 'student',
-        attributes: ['email', 'name'],
-      }],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['email', 'name'],
+        },
+      ],
     });
 
     if (!helpOrder) {
@@ -36,7 +38,6 @@ class HelpOrderController {
       answer,
       answer_at: new Date(),
     });
-
 
     await Queue.add(AviseAnswer.key, {
       helpOrder,

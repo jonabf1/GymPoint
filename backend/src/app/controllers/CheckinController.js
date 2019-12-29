@@ -1,4 +1,3 @@
-
 const { subDays } = require('date-fns');
 const { Op } = require('sequelize');
 const Student = require('../models/Student');
@@ -18,15 +17,15 @@ class CheckinController {
       where: {
         student_id: id,
         created_at: {
-          [Op.between]: [
-            subDays(new Date(), 7),
-            new Date()],
+          [Op.between]: [subDays(new Date(), 7), new Date()],
         },
       },
     });
 
     if (limitOfCheckins >= 5) {
-      return res.status(400.0.json({ error: 'You can only do 5 checkins every 7 days' }));
+      return res.status(
+        (400.0).json({ error: 'You can only do 5 checkins every 7 days' })
+      );
     }
 
     return res.json(limitOfCheckins);

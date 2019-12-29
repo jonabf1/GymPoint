@@ -1,7 +1,5 @@
 const Yup = require('yup');
-const {
-  addMonths, startOfHour, parseISO,
-} = require('date-fns');
+const { addMonths, startOfHour, parseISO } = require('date-fns');
 const Student = require('../models/Student');
 const Plan = require('../models/Plan');
 const Enrollment = require('../models/Enrollment');
@@ -49,7 +47,10 @@ class EnrollmentController {
     }
     const price = plan.price * plan.duration;
 
-    const dateFormatted = addMonths(startOfHour(parseISO(start_date)), plan.duration);
+    const dateFormatted = addMonths(
+      startOfHour(parseISO(start_date)),
+      plan.duration
+    );
 
     const enrollment = await Enrollment.create({
       start_date,
@@ -70,7 +71,14 @@ class EnrollmentController {
   }
 
   async index(req, res) {
-    const enrollments = await Enrollment.findAll();
+    const { page = 1 } = req.query;
+
+    const enrollments = await Enrollment.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      limit: 10,
+      offset: (page - 1) * 10,
+      order: ['id'],
+    });
 
     return res.json(enrollments);
   }
@@ -116,7 +124,10 @@ class EnrollmentController {
 
     const price = plan.price * plan.duration;
 
-    const dateFormatted = addMonths(startOfHour(parseISO(start_date)), plan.duration);
+    const dateFormatted = addMonths(
+      startOfHour(parseISO(start_date)),
+      plan.duration
+    );
 
     const enrollment = await Enrollment.update({
       start_date,

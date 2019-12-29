@@ -1,8 +1,7 @@
 const pt = require('date-fns/locale/pt');
-const { format, parseISO } = require('date-fns');
+const { format } = require('date-fns');
 
 const Mail = require('../../lib/mail');
-
 
 class AviseAnswer {
   get key() {
@@ -20,11 +19,9 @@ class AviseAnswer {
         user: helpOrder.student.name,
         question: helpOrder.question,
         answer,
-        answer_at: format(new Date(),
-          "dd'/'MM'/'yyyy, ''",
-          {
-            locale: pt,
-          }),
+        answer_at: format(new Date(), "dd'/'MM'/'yyyy, ''", {
+          locale: pt,
+        }),
       },
     });
   }

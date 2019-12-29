@@ -1,6 +1,14 @@
 {
+  "name": "gympoint",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon -L ./src/server.js",
+    "queue": "nodemon ./src/queue.js"
+  },
   "dependencies": {
-    "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
     "bee-queue": "^1.2.2",
     "date-fns": "^2.0.0-beta.5",
@@ -13,21 +21,17 @@
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.19.8",
-    "sequelize-cli": "^5.5.1",
     "yup": "^0.27.0"
   },
-  "name": "Node-02",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "dev": "nodemon ./src/server.js",
-    "queue": "nodemon ./src/queue.js"
-  },
   "devDependencies": {
-    "eslint": "^6.5.1",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "nodemon": "^1.19.4"
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.19.1",
+    "sequelize-cli": "^5.5.1"
   }
 }

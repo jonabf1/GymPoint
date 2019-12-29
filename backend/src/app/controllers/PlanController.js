@@ -9,7 +9,9 @@ class PlanControler {
   async store(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
-      duration: Yup.number().positive().integer(),
+      duration: Yup.number()
+        .positive()
+        .integer(),
       price: Yup.number().positive(),
     });
 
@@ -39,13 +41,13 @@ class PlanControler {
 
     // retornar email para os usuarios informando que a conta
     // vai ser cancelada (caso tenha usuarios cadastrados)
-    const enrollmentEmailsUsers = await Enrollment.findAll(
-      {
-        where: {
-          plan_id: id,
-        },
-        attributes: [],
-        include: [{
+    const enrollmentEmailsUsers = await Enrollment.findAll({
+      where: {
+        plan_id: id,
+      },
+      attributes: [],
+      include: [
+        {
           model: Student,
           as: 'student',
           attributes: ['email', 'name'],
@@ -54,13 +56,13 @@ class PlanControler {
           model: Plan,
           as: 'plan',
           attributes: ['title'],
-        }],
-      },
-    );
+        },
+      ],
+    });
 
     // nao ta enviando todos os planos
     // eslint-disable-next-line array-callback-return
-    enrollmentEmailsUsers.map((enrollment) => {
+    enrollmentEmailsUsers.map(enrollment => {
       Queue.add(DeletePlan.key, {
         enrollment,
       });
@@ -78,7 +80,9 @@ class PlanControler {
   async update(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
-      duration: Yup.number().positive().integer(),
+      duration: Yup.number()
+        .positive()
+        .integer(),
       price: Yup.number().positive(),
     });
 

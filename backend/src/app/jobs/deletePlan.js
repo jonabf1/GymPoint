@@ -19,11 +19,9 @@ class DeletePlan {
       context: {
         user: enrollment.student.name,
         plan: enrollment.plan.title,
-        end_date: format(new Date(),
-          "dd'/'MM'/'yyyy",
-          {
-            locale: pt,
-          }),
+        end_date: format(new Date(), "dd'/'MM'/'yyyy", {
+          locale: pt,
+        }),
       },
     });
   }

@@ -1,4 +1,5 @@
 const { Model, Sequelize } = require('sequelize');
+const { isBefore, isAfter } = require('date-fns');
 
 class Enrollment extends Model {
   static init(sequelize) {
@@ -7,9 +8,22 @@ class Enrollment extends Model {
         price: Sequelize.FLOAT,
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
-      }, {
-        sequelize,
+        active: {
+          type: Sequelize.VIRTUAL(Sequelize.BOOLEAN, [
+            'start_date',
+            'end_date',
+          ]),
+          get() {
+            return (
+              isBefore(this.get('start_date'), new Date()) &&
+              isAfter(this.get('end_date'), new Date())
+            );
+          },
+        },
       },
+      {
+        sequelize,
+      }
     );
 
     return this;

@@ -1,4 +1,5 @@
 const Yup = require('yup');
+const { Op } = require('sequelize');
 const Student = require('../models/Student');
 const User = require('../models/User');
 
@@ -6,8 +7,13 @@ class StudentController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      email: Yup.string().email().required(),
-      age: Yup.number().positive().integer().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      age: Yup.number()
+        .positive()
+        .integer()
+        .required(),
       weight: Yup.number().required(),
       height: Yup.number().required(),
     });
@@ -22,7 +28,9 @@ class StudentController {
       return res.status(400).json({ error: 'Unauthorized user' });
     }
 
-    const alredyExist = await Student.findOne({ where: { email: req.body.email } });
+    const alredyExist = await Student.findOne({
+      where: { email: req.body.email },
+    });
 
     if (alredyExist) {
       return res.status(400).json({ error: 'Student Alredy Exists' });
@@ -33,34 +41,29 @@ class StudentController {
     return res.json(student);
   }
 
-  async update(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      email: Yup.string().email(),
-      age: Yup.number().positive().integer(),
-      weight: Yup.number(),
-      height: Yup.number(),
-    });
+  async index(req, res) {
+    const { name, page = 1 } = req.query;
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+    let students;
+
+    if (name) {
+      students = await User.findAll({
+        where: {
+          name: { [Op.like]: `%${name}` },
+          limit: 10,
+          offset: (page - 1) * 10,
+          order: ['name'],
+        },
+      });
+    } else {
+      students = await User.findAll({
+        limit: 10,
+        offset: (page - 1) * 10,
+        order: ['name'],
+      });
     }
 
-    const studentExists = await Student.findByPk(req.body.id);
-
-    if (!studentExists) {
-      return res.status(400).json({ error: 'User does not exists' });
-    }
-
-    const emailAlredyExists = await Student.findOne({ where: { email: req.body.email } });
-
-    if (emailAlredyExists) {
-      return res.status(400).json({ error: 'Email alredy exists' });
-    }
-
-    const student = await studentExists.update(req.body);
-
-    return res.json(student);
+    return res.json(students);
   }
 }
 

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const UserController = require('./app/controllers/UserController');
 const SessionController = require('./app/controllers/SessionController');
 const StudentController = require('./app/controllers/StudentController');
@@ -15,8 +16,10 @@ const routes = express.Router();
 // sem verificacao
 routes.post('/user', UserController.store);
 routes.post('/session', SessionController.store);
+
 routes.post('/students/:id/checkins', CheckinController.store);
 routes.get('/students/:id/checkins', CheckinController.index);
+
 routes.post('/students/:id/help-orders', StudentHelpOrderController.store);
 routes.get('/students/:id/help-orders', StudentHelpOrderController.index);
 
@@ -25,7 +28,7 @@ routes.use(authMiddleware);
 routes.use(AdminMiddleware);
 
 routes.post('/student', StudentController.store);
-routes.put('/student', StudentController.update);
+routes.get('/student', StudentController.index);
 
 routes.post('/plan', PlanController.store);
 routes.get('/plan', PlanController.index);
@@ -37,13 +40,7 @@ routes.get('/enrollment', EnrollmentController.index);
 routes.put('/enrollment/:id', EnrollmentController.update);
 routes.delete('/enrollment/:id', EnrollmentController.delete);
 
-routes.post('/enrollment', EnrollmentController.store);
-routes.get('/enrollment', EnrollmentController.index);
-routes.put('/enrollment/:id', EnrollmentController.update);
-routes.delete('/enrollment/:id', EnrollmentController.delete);
-
 routes.post('/help-orders/:id/answer', UserHelpOrderController.store);
 routes.get('/help-orders/answer', UserHelpOrderController.index);
-
 
 module.exports = routes;

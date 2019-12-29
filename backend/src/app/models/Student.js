@@ -9,17 +9,14 @@ class Student extends Model {
         age: Sequelize.INTEGER,
         weight: Sequelize.FLOAT,
         height: Sequelize.FLOAT,
-      }, {
-        sequelize,
       },
+      {
+        sequelize,
+      }
     );
 
     return this;
   }
-
-  /* checkAdmin(token) {
-    return bcrypt.compare(password, this.password_hash);
-  } */
 }
 
 module.exports = Student;
