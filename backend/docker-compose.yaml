@@ -1,15 +1,17 @@
 version: '3'
+
 services:
   
   nodejs-gympoint:
     container_name: nodejs-gympoint
     build: '.'
+    entrypoint: ["./init.sh"]
     volumes:
       - .:/home/node/api
       - /home/node/api/node_modules
     depends_on:
       - postgres-gympoint
-      - jobs-gympoint
+      - redis-gympoint
     networks:
       - app-connect
     ports:
@@ -18,7 +20,6 @@ services:
   postgres-gympoint:
     container_name: postgres-gympoint
     image: postgres:11
-    restart: always
     volumes:
       - postgres-gympoint-data:/data
     environment: 
@@ -31,8 +32,8 @@ services:
       - '5432:5432'      
 
 
-  jobs-gympoint:
-    container_name: jobs-gympoint
+  jobs:
+    container_name: jobs
     build: .
     command: yarn queue
     depends_on: 
@@ -43,7 +44,6 @@ services:
   redis-gympoint:
     container_name: redis-gympoint
     image: bitnami/redis:latest
-    restart: always
     environment: 
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
