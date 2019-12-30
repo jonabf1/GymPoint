@@ -42,7 +42,7 @@ class SessionController {
         authConfig.secret,
         {
           expiresIn: authConfig.expiresIn,
-        }
+        },
       ),
     });
   }

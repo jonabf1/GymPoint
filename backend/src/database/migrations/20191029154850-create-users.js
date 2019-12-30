@@ -28,11 +28,6 @@ module.exports = {
       type: Sequelize.DATE,
       allowNull: false,
     },
-    provider: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
   }),
 
   down: (queryInterface) => queryInterface.dropTable('users'),

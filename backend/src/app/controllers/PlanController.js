@@ -62,7 +62,7 @@ class PlanControler {
 
     // nao ta enviando todos os planos
     // eslint-disable-next-line array-callback-return
-    enrollmentEmailsUsers.map(enrollment => {
+    enrollmentEmailsUsers.map((enrollment) => {
       Queue.add(DeletePlan.key, {
         enrollment,
       });

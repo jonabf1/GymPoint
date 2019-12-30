@@ -24,7 +24,7 @@ class CheckinController {
 
     if (limitOfCheckins >= 5) {
       return res.status(
-        (400.0).json({ error: 'You can only do 5 checkins every 7 days' })
+        (400.0).json({ error: 'You can only do 5 checkins every 7 days' }),
       );
     }
 

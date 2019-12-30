@@ -49,7 +49,7 @@ class EnrollmentController {
 
     const dateFormatted = addMonths(
       startOfHour(parseISO(start_date)),
-      plan.duration
+      plan.duration,
     );
 
     const enrollment = await Enrollment.create({
@@ -126,7 +126,7 @@ class EnrollmentController {
 
     const dateFormatted = addMonths(
       startOfHour(parseISO(start_date)),
-      plan.duration
+      plan.duration,
     );
 
     const enrollment = await Enrollment.update({

@@ -30,7 +30,6 @@ class UserController {
       email,
       name,
       password,
-      provider: true,
     });
 
     return res.json(user);
