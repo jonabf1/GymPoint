@@ -11,7 +11,7 @@ services:
       - /home/node/api/node_modules
     depends_on:
       - postgres-gympoint
-      - redis-gympoint
+      - jobs-gympoint
     networks:
       - app-connect
     ports:
@@ -32,8 +32,8 @@ services:
       - '5432:5432'      
 
 
-  jobs:
-    container_name: jobs
+  jobs-gympoint:
+    container_name: jobs-gympoint
     build: .
     command: yarn queue
     depends_on: 
