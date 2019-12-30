@@ -23,7 +23,6 @@ routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/students/:id/help-orders', StudentHelpOrderController.store);
 routes.get('/students/:id/help-orders', StudentHelpOrderController.index);
 
-// verificacao admin
 routes.use(authMiddleware);
 routes.use(AdminMiddleware);
 
