@@ -13,7 +13,6 @@ const AdminMiddleware = require('./app/middlewares/admin');
 
 const routes = express.Router();
 
-// sem verificacao
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
@@ -28,6 +27,8 @@ routes.use(AdminMiddleware);
 
 routes.post('/students', StudentController.store);
 routes.get('/students', StudentController.index);
+routes.put('/students/:id', StudentController.update);
+routes.delete('/students/:id', StudentController.delete);
 
 routes.post('/plans', PlanController.store);
 routes.get('/plans', PlanController.index);
