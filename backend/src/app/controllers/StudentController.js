@@ -100,7 +100,7 @@ class StudentController {
     let students;
 
     if (name) {
-      students = await User.findAll({
+      students = await Student.findAll({
         where: {
           name: { [Op.like]: `%${name}` },
           limit: 10,
@@ -109,7 +109,7 @@ class StudentController {
         },
       });
     } else {
-      students = await User.findAll({
+      students = await Student.findAll({
         limit: 10,
         offset: (page - 1) * 10,
         order: ['name'],
