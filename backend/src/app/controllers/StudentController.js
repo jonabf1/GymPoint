@@ -118,6 +118,14 @@ class StudentController {
 
     return res.json(students);
   }
+
+  async show(req, res) {
+    const { id } = req.query;
+
+    const students = await Student.findByPk(id);
+
+    return res.json(students);
+  }
 }
 
 module.exports = new StudentController();
