@@ -120,7 +120,7 @@ class StudentController {
   }
 
   async show(req, res) {
-    const { id } = req.query;
+    const { id } = req.params;
 
     const students = await Student.findByPk(id);
 
