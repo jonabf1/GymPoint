@@ -101,12 +101,14 @@ class StudentController {
 
     if (name) {
       students = await Student.findAll({
+        order: ['name'],
         where: {
-          name: { [Op.like]: `%${name}` },
-          limit: 10,
-          offset: (page - 1) * 10,
-          order: ['name'],
+          name: {
+            [Op.iLike]: `%${name}%`,
+          },
         },
+        limit: 10,
+        offset: (page - 1) * 10,
       });
     } else {
       students = await Student.findAll({
