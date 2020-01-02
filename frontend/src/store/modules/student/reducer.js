@@ -17,7 +17,6 @@ export default function student(state = INITIAL_STATE, action) {
         break;
       }
       case "@student/STUDENT_UPDATE_SUCCESS": {
-        draft.students.list = action.payload.data;
         draft.students.loading = false;
         break;
       }
@@ -26,7 +25,7 @@ export default function student(state = INITIAL_STATE, action) {
         break;
       }
       case "@student/STUDENT_CREATE_SUCCESS": {
-        draft.students.list = action.payload.data;
+        state.students.list.push(action.payload.data);
         draft.students.loading = false;
         break;
       }
@@ -36,9 +35,7 @@ export default function student(state = INITIAL_STATE, action) {
       }
       case "@student/STUDENT_SEARCH_SUCCESS": {
         draft.students.page = action.payload.page;
-
         draft.students.limit = action.payload.limit;
-
         draft.students.list = action.payload.data;
         draft.students.loading = false;
         break;

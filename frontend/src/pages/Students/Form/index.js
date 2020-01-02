@@ -28,10 +28,18 @@ const schema = Yup.object().shape({
     .required("O e-mail é obrigatório"),
   age: Yup.number()
     .min(10, "A idade deve ser maior que 10 anos")
+    .positive("Insira um numero válido")
     .max(120, "Idade inválida")
-    .required("A idade é obrigatória"),
-  weight: Yup.number().required("O peso é obrigatório"),
-  height: Yup.number().required("A altura é obrigatória")
+    .required("A idade é obrigatória")
+    .typeError("A idade é obrigatória"),
+  weight: Yup.number("Insira um número válido")
+    .required("O peso obrigatório")
+    .positive("Insira um numero válido")
+    .typeError("O peso é obrigatório"),
+  height: Yup.number("Insira um número válido")
+    .required("A altura é obrigatória")
+    .positive("Insira um numero válido")
+    .typeError("A altura é obrigatória")
 });
 
 export default function StudentForm() {
@@ -41,8 +49,12 @@ export default function StudentForm() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function searchStudent() {
-    const response = await api.get(`/students/${id}`);
-    setStudent(response.data);
+    try {
+      const response = await api.get(`/students/${id}`);
+      return setStudent(response.data);
+    } catch (err) {
+      return err;
+    }
   }
 
   useEffect(() => {
@@ -95,14 +107,26 @@ export default function StudentForm() {
             placeholder="Seu e-mail"
           />
           <Container>
-            <InputLabel type="number" desc="IDADE" name="age" />
+            <InputLabel
+              placeholder="Sua idade"
+              type="number"
+              desc="IDADE"
+              name="age"
+            />
             <InputLabel
               step="0.1"
+              placeholder="Seu peso. Ex: 99,9"
               type="number"
               desc="PESO (em kg)"
               name="weight"
             />
-            <InputLabel step="0.1" type="number" desc="ALTURA" name="height" />
+            <InputLabel
+              step="0.01"
+              placeholder="Sua altura. Ex: 1,75"
+              type="number"
+              desc="ALTURA"
+              name="height"
+            />
           </Container>
         </Content>
       </BaseContent>

@@ -13,6 +13,7 @@ import {
 
 export function* createStudents({ payload }) {
   try {
+    console.log(payload);
     const response = yield call(api.post, "/students", payload.data);
 
     yield put(studentCreateSuccess(response.data));
@@ -20,6 +21,7 @@ export function* createStudents({ payload }) {
     if (response) {
       toast.success("Estudante criado com sucesso");
     }
+
     history.push("/students/list");
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
@@ -42,20 +44,13 @@ export function* searchStudents({ payload }) {
       }
     });
 
-    const newResponse = yield call(api.get, "/students", {
-      params: {
-        name: name || "",
-        page: page + 1
-      }
-    });
-
     if (response.data.length <= 0) {
       yield put(studentsFailure());
       return;
     }
 
     let limit = false;
-    if (newResponse.data.length < 10) {
+    if (response.data.length < 10) {
       limit = true;
       yield put(studentSearchSuccess({ data: response.data, page, limit }));
     }

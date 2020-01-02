@@ -68,4 +68,13 @@ input{
     font-size: 1.4rem;
   }
 }
+
+span {
+    color: red;
+    display:block;
+    align-self: flex-start;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-top: 5px;
+  }
 `;

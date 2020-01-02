@@ -40,12 +40,4 @@ export const Content = styled.div`
       margin-bottom: 10px;
     }
   }
-
-  span {
-    color: red;
-    align-self: flex-start;
-    font-weight: bold;
-    font-size: 1.3rem;
-    margin-top: 5px;
-  }
 `;

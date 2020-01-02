@@ -1,41 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Async, { makeAsyncSelect } from "react-select/async";
-import Select from "react-select";
+import Async from "react-select/async";
 
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import api from "../../../services/api";
+import Modal from "../../../components/modal";
 import {
   studentSearchRequest,
-  studentDeleteRequest
+  studentDeleteRequest,
+  studentUpdateRequest
 } from "../../../store/modules/student/actions";
 
 import Header from "../../../components/base/header";
 import BaseContent from "../../../components/base/baseContent";
 import Content from "../../../components/content";
 import CustomButton from "../../../components/buttons/customButton";
-import ButtonLink from "../../../components/buttons/buttonLink";
-import Table from "../../../components/table";
+import Table from "../../../components/table/structure";
+import Loading from "../../../components/loading";
+import ListController from "../../../components/ListController";
+import Item from "../../../components/table/item";
 
 import colors from "../../../styles/colors";
-import { Container, ManageList } from "./styles";
-import Loading from "../../../components/loading";
+import { Container } from "./styles";
 
 export default function List() {
   const dispatch = useDispatch();
   const students = useSelector(state => state.student.students);
 
+  const [studentSearchName, setStudentSearchName] = useState();
+  const [studentSelected, setStudentSelected] = useState();
+
   useEffect(() => {
     dispatch(studentSearchRequest({ name: "", page: students.page }));
   }, [dispatch, students.page]);
 
-  function handleDelete(id) {
-    dispatch(studentDeleteRequest(id));
-  }
-
   function handleUpdateList(page) {
     dispatch(studentSearchRequest({ name: "", page }));
+  }
+
+  async function confirmDelete(data) {
+    const func = await Modal(data);
+
+    if (func) {
+      dispatch(studentDeleteRequest(data.id));
+    }
+  }
+
+  async function loadStudents() {
+    const response = await api.get(`/students`, {
+      query: {
+        name: studentSearchName
+      }
+    });
+    return response.data;
   }
 
   return (
@@ -43,7 +61,6 @@ export default function List() {
       <BaseContent>
         <Header>
           <h1>Gerenciando alunos</h1>
-
           <div>
             <Link to="/students/new">
               <CustomButton
@@ -54,11 +71,13 @@ export default function List() {
               </CustomButton>
             </Link>
             <Container>
-              <Select
-                options="students"
-                value="studentSelected"
-                onChange={e => "setStudentSelected"("e")}
-                asyncFunc="loadStudents"
+              <Async
+                defaultValue={null}
+                loadOptions={loadStudents}
+                onInputChange={v => setStudentSearchName(v)}
+                onChange={e => setStudentSelected(e)}
+                getOptionValue={option => option.id}
+                getOptionLabel={option => option.name}
                 placeholder="Buscar aluno"
               />
             </Container>
@@ -78,25 +97,24 @@ export default function List() {
                 </thead>
                 <tbody>
                   {students.list.map(student => (
-                    <tr key={student.id}>
-                      <td>{student.name}</td>
-                      <td>{student.email}</td>
-                      <td>{student.age}</td>
-                      <td>
-                        <ButtonLink
-                          to={`/students/edit/${student.id}`}
-                          color={colors.editTable}
-                        >
-                          editar
-                        </ButtonLink>
-                        <ButtonLink
-                          onClick={() => handleDelete(student.id)}
-                          color={colors.deleteTable}
-                        >
-                          apagar
-                        </ButtonLink>
-                      </td>
-                    </tr>
+                    <Item
+                      key={student.id}
+                      data={student}
+                      onRemove={() => confirmDelete()}
+                      path={`/students/edit/${student.id}`}
+                      onDelete={() =>
+                        confirmDelete({
+                          id: student.id,
+                          title: "Confirmar exclusão",
+                          text: `Deseja deletar o estudante ${student.name}?`,
+                          confirmText: "Deletar",
+                          cancelText: "Cancelar",
+                          icon: "warning",
+                          finalText: "Deletado com sucesso!"
+                        })
+                      }
+                      fields={["name", "email", "age"]}
+                    />
                   ))}
                 </tbody>
               </>
@@ -105,31 +123,13 @@ export default function List() {
             )}
           </Table>
           {!students.loading ? (
-            <ManageList>
-              <CustomButton bool={students.page < 2} width="auto" height="auto">
-                <FaChevronLeft
-                  onClick={() => handleUpdateList(students.page - 1)}
-                  color={
-                    students.page < 2
-                      ? colors.buttonPageHeaderSecondary
-                      : colors.buttonPageHeaderPrimary
-                  }
-                  size={24}
-                />
-              </CustomButton>
-              <p>{students.page}</p>
-              <CustomButton bool={students.limit} width="auto" height="auto">
-                <FaChevronRight
-                  onClick={() => handleUpdateList(students.page + 1)}
-                  color={
-                    students.limit
-                      ? colors.buttonPageHeaderSecondary
-                      : colors.buttonPageHeaderPrimary
-                  }
-                  size={24}
-                />
-              </CustomButton>
-            </ManageList>
+            <ListController
+              onAdd={() => handleUpdateList(students.page + 1)}
+              onRemove={() => handleUpdateList(students.page - 1)}
+              boolAdd={students.limit}
+              boolRemove={students.page < 2}
+              page={students.page}
+            />
           ) : null}
         </Content>
       </BaseContent>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form } from "@rocketseat/unform";
 import * as Yup from "yup";
 import InputLabel from "../../components/inputLabel";
-import Button from "../../components/buttons/general";
+import CustomButtom from "../../components/buttons/customButton";
 import logo from "../../assets/logo.svg";
 import { signInRequest } from "../../store/modules/auth/actions";
 import colors from "../../styles/colors";
@@ -41,14 +41,14 @@ export default function SignIn() {
           desc="SUA SENHA"
           type="password"
         />
-        <Button
+        <CustomButtom
           onClick={handleSubmit}
           loading={loading}
           type="submit"
           color={colors.backgroundAuth}
         >
           Entrar no sistema
-        </Button>
+        </CustomButtom>
       </Form>
     </>
   );

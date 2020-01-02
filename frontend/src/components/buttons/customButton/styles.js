@@ -21,14 +21,12 @@ export const Container = styled.button.attrs(props => ({
   border: 0;
   background: ${props => props.color};
   transition: background 0.3s;
-
   ${props =>
     props.color &&
     css`
     &:hover{
       background: ${darken(0.2, props.color)};
     `}
-
   ${props =>
     props.loading &&
     css`
@@ -37,13 +35,14 @@ export const Container = styled.button.attrs(props => ({
       }
     `};
 
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
   ${props =>
     props.bool &&
     css`
-      &[disabled] {
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
       svg {
         cursor: not-allowed !important;
       }

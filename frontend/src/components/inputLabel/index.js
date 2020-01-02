@@ -29,5 +29,6 @@ InputLabel.propTypes = {
 
 InputLabel.defaultProps = {
   desc: undefined,
-  placeholder: undefined
+  placeholder: undefined,
+  step: 0
 };

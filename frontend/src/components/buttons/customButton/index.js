@@ -10,7 +10,8 @@ export default function CustomButton({
   bool,
   width,
   height,
-  loading
+  loading,
+  ...rest
 }) {
   return (
     <>
@@ -21,6 +22,7 @@ export default function CustomButton({
         loading={loading}
         color={color}
         type={type}
+        {...rest}
       >
         {loading ? <FaSpinner color="#fff" size={24} /> : children}
       </Container>
