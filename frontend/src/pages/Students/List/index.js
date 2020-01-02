@@ -8,8 +8,7 @@ import api from "../../../services/api";
 import Modal from "../../../components/modal";
 import {
   studentSearchRequest,
-  studentDeleteRequest,
-  studentUpdateRequest
+  studentDeleteRequest
 } from "../../../store/modules/student/actions";
 
 import Header from "../../../components/base/header";
@@ -72,11 +71,10 @@ export default function List() {
             </Link>
             <Container>
               <Async
-                defaultValue={null}
+                defaultValue={1}
                 loadOptions={loadStudents}
                 onInputChange={v => setStudentSearchName(v)}
                 onChange={e => setStudentSelected(e)}
-                getOptionValue={option => option.id}
                 getOptionLabel={option => option.name}
                 placeholder="Buscar aluno"
               />

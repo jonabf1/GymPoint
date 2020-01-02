@@ -66,34 +66,45 @@ export default function StudentForm() {
 
   function handleSubmit({ email, name, weight, height, age }) {
     if (id) {
-      dispatch(studentUpdateRequest({ email, name, weight, height, age, id }));
+      dispatch(
+        studentUpdateRequest({ id, email, name, weight, height, age, id })
+      );
     } else {
       dispatch(studentCreateRequest({ email, name, weight, height, age }));
     }
   }
 
   return (
-    <Form initialData={student} schema={schema} onSubmit={handleSubmit}>
-      <BaseContent>
-        <Header>
-          <h1>{id ? "Editar um aluno" : "Cadastro de aluno"}</h1>
+    <BaseContent>
+      <Header>
+        <h1>{id ? "Editar um aluno" : "Cadastro de aluno"}</h1>
 
-          <div>
-            <Link to="/students/list">
-              <Button
-                desc="VOLTAR"
-                color={colors.buttonPageHeaderSecondary}
-                type="button"
-              >
-                VOLTAR
-              </Button>
-            </Link>
-            <Button color={colors.buttonPageHeaderPrimary} type="submit">
-              SALVAR
+        <div>
+          <Link to="/students/list">
+            <Button
+              desc="VOLTAR"
+              color={colors.buttonPageHeaderSecondary}
+              type="button"
+            >
+              VOLTAR
             </Button>
-          </div>
-        </Header>
-        <Content>
+          </Link>
+          <Button
+            form="form"
+            color={colors.buttonPageHeaderPrimary}
+            type="submit"
+          >
+            SALVAR
+          </Button>
+        </div>
+      </Header>
+      <Content>
+        <Form
+          id="form"
+          initialData={student}
+          schema={schema}
+          onSubmit={handleSubmit}
+        >
           <InputLabel
             desc="NOME COMPLETO"
             type="text"
@@ -128,8 +139,8 @@ export default function StudentForm() {
               name="height"
             />
           </Container>
-        </Content>
-      </BaseContent>
-    </Form>
+        </Form>
+      </Content>
+    </BaseContent>
   );
 }

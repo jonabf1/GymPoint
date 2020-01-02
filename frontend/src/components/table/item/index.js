@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ButtonLink from "../../buttons/buttonLink";
 import color from "../../../styles/colors";
 
@@ -19,3 +20,10 @@ export default function Item({ data, path, onDelete, fields }) {
     </tr>
   );
 }
+
+Item.propTypes = {
+  data: PropTypes.string.isRequired,
+  fields: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired
+};

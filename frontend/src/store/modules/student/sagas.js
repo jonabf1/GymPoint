@@ -8,7 +8,8 @@ import {
   studentSearchSuccess,
   studentsFailure,
   studentDeleteSuccess,
-  studentCreateSuccess
+  studentCreateSuccess,
+  studentUpdateSuccess
 } from "./actions";
 
 export function* createStudents({ payload }) {
@@ -73,8 +74,27 @@ export function* deleteStudents({ payload }) {
   }
 }
 
+export function* updateStudents({ payload }) {
+  try {
+    const response = yield call(
+      api.put,
+      `/students/${payload.data.id}`,
+      payload.data
+    );
+
+    if (response.status === 200) {
+      toast.success("Usuário editado com sucesso");
+    }
+
+    yield put(studentUpdateSuccess());
+  } catch (err) {
+    toast.error("Ocorreu um erro na requisição");
+  }
+}
+
 export default all([
   takeLatest("@student/STUDENT_SEARCH_REQUEST", searchStudents),
   takeLatest("@student/STUDENT_DELETE_REQUEST", deleteStudents),
-  takeLatest("@student/STUDENT_CREATE_REQUEST", createStudents)
+  takeLatest("@student/STUDENT_CREATE_REQUEST", createStudents),
+  takeLatest("@student/STUDENT_UPDATE_REQUEST", updateStudents)
 ]);
