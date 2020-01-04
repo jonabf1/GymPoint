@@ -28,7 +28,7 @@ export default function Header() {
               activeStyle={{
                 color: color.buttonPageHeaderPrimary
               }}
-              to="/plans"
+              to="/plans/list"
             >
               PLANOS
             </Link>
@@ -36,7 +36,7 @@ export default function Header() {
               activeStyle={{
                 color: color.buttonPageHeaderPrimary
               }}
-              to="/enrollments"
+              to="/enrollments/list"
             >
               MATRÍCULAS
             </Link>
@@ -44,7 +44,7 @@ export default function Header() {
               activeStyle={{
                 color: color.buttonPageHeaderPrimary
               }}
-              to="/help-orders"
+              to="/help-orders/list"
             >
               PEDIDOS DE AUXÍLIO
             </Link>

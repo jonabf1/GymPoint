@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import { Form } from "@rocketseat/unform";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
 import {
   studentUpdateRequest,
   studentCreateRequest
@@ -14,7 +14,7 @@ import api from "../../../services/api";
 import Header from "../../../components/base/header";
 import BaseContent from "../../../components/base/baseContent";
 import Content from "../../../components/content";
-import Button from "../../../components/buttons/customButton";
+import CustomButton from "../../../components/buttons/customButton";
 import InputLabel from "../../../components/inputLabel";
 
 import colors from "../../../styles/colors";
@@ -44,8 +44,10 @@ const schema = Yup.object().shape({
 
 export default function StudentForm() {
   const [student, setStudent] = useState();
-  const dispatch = useDispatch();
   const { id } = useParams();
+
+  const loading = useSelector(state => state.student.students.loading);
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function searchStudent() {
@@ -66,9 +68,7 @@ export default function StudentForm() {
 
   function handleSubmit({ email, name, weight, height, age }) {
     if (id) {
-      dispatch(
-        studentUpdateRequest({ id, email, name, weight, height, age, id })
-      );
+      dispatch(studentUpdateRequest({ id, email, name, weight, height, age }));
     } else {
       dispatch(studentCreateRequest({ email, name, weight, height, age }));
     }
@@ -78,24 +78,27 @@ export default function StudentForm() {
     <BaseContent>
       <Header>
         <h1>{id ? "Editar um aluno" : "Cadastro de aluno"}</h1>
-
         <div>
           <Link to="/students/list">
-            <Button
+            <CustomButton
               desc="VOLTAR"
               color={colors.buttonPageHeaderSecondary}
               type="button"
             >
+              <MdKeyboardBackspace size={24} color="#fff" />
               VOLTAR
-            </Button>
+            </CustomButton>
           </Link>
-          <Button
+          <CustomButton
             form="form"
+            bool={loading}
+            loading={loading}
             color={colors.buttonPageHeaderPrimary}
             type="submit"
           >
+            <MdAdd size={24} color="#fff" />
             SALVAR
-          </Button>
+          </CustomButton>
         </div>
       </Header>
       <Content>

@@ -55,6 +55,7 @@ export default function student(state = INITIAL_STATE, action) {
       }
       case "@student/STUDENT_FAILURE": {
         draft.students.loading = false;
+        draft.students.page = 1;
         break;
       }
       default:

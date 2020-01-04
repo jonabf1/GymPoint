@@ -25,9 +25,23 @@ class PlanControler {
   }
 
   async index(req, res) {
-    const plans = await Plan.findAll();
+    const { page = 1 } = req.query;
+
+    const plans = await Plan.findAll({
+      limit: 10,
+      offset: (page - 1) * 10,
+      order: ['title'],
+    });
 
     return res.json(plans);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const plan = await Plan.findByPk(id);
+
+    return res.json(plan);
   }
 
   async delete(req, res) {

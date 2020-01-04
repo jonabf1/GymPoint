@@ -42,9 +42,9 @@ export default function SignIn() {
           type="password"
         />
         <CustomButtom
-          onClick={handleSubmit}
           loading={loading}
           type="submit"
+          bool={loading}
           color={colors.backgroundAuth}
         >
           Entrar no sistema

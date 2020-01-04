@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import colors from "./colors";
+import color from "./colors";
 
 export default createGlobalStyle` 
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -61,10 +61,10 @@ input{
   background: #fff;
   font-size: 1.6rem;
   border: 1px solid #dddddd;
-  color:${colors.input};
+  color:${color.input};
 
   &::placeholder{
-    color:${colors.placeholder};
+    color:${color.placeholder};
     font-size: 1.4rem;
   }
 }
@@ -76,5 +76,9 @@ span {
     font-weight: bold;
     font-size: 1.3rem;
     margin-top: 5px;
+  }
+
+  h1{
+    color:${color.labelAuth};
   }
 `;

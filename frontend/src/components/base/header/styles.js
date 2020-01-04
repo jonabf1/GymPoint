@@ -5,12 +5,23 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 0 20px 0;
+  width: 100%;
 
   button {
     margin-left: 15px;
+
+    &:first-child {
+      margin: 0;
+    }
   }
 
-  input {
-    margin-left: 15px;
+  h1 {
+    margin-right: 40px;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 `;

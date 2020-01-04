@@ -13,7 +13,8 @@ const rotate = keyframes`
 export const Container = styled.button.attrs(props => ({
   disabled: props.bool
 }))`
-  width: ${props => (props.width ? props.width : "112px")};
+  padding: 5px;
+  width: ${props => (props.width ? props.width : "auto")};
   height: ${props => (props.height ? props.height : "36px")};
   color: #fff;
   font-size: 1.4rem;
@@ -21,12 +22,10 @@ export const Container = styled.button.attrs(props => ({
   border: 0;
   background: ${props => props.color};
   transition: background 0.3s;
-  ${props =>
-    props.color &&
-    css`
-    &:hover{
-      background: ${darken(0.2, props.color)};
-    `}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   ${props =>
     props.loading &&
     css`
@@ -35,9 +34,16 @@ export const Container = styled.button.attrs(props => ({
       }
     `};
 
+  ${props =>
+    props.color &&
+    css`
+    &:hover{
+      background: ${darken(0.2, props.color)};
+    `}
+
   &[disabled] {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   ${props =>

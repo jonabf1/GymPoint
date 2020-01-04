@@ -56,6 +56,14 @@ class HelpOrderController {
 
     return res.json(helpOrders);
   }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const helpOrder = await HelpOrder.findByPk(id);
+
+    return res.json(helpOrder);
+  }
 }
 
 module.exports = new HelpOrderController();

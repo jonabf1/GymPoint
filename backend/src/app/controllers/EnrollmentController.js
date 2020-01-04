@@ -83,6 +83,14 @@ class EnrollmentController {
     return res.json(enrollments);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const enrollment = await Enrollment.findByPk(id);
+
+    return res.json(enrollment);
+  }
+
   async update(req, res) {
     const schema = Yup.object().shape({
       plan_id: Yup.number().required(),

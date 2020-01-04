@@ -100,7 +100,7 @@ class StudentController {
 
     let students;
 
-    if (name) {
+    if (name !== '') {
       students = await Student.findAll({
         order: ['name'],
         where: {

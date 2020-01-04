@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
-import { Input } from "@rocketseat/unform";
+import InputMask from "react-input-mask";
 import colors from "../../styles/colors";
 
-export const NewInput = styled(Input)`
+export const NewInput = styled(InputMask)`
   ${props =>
     props.disabled &&
     css`

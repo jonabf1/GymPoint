@@ -33,15 +33,18 @@ routes.delete('/students/:id', StudentController.delete);
 
 routes.post('/plans', PlanController.store);
 routes.get('/plans', PlanController.index);
+routes.get('/plans/:id', PlanController.show);
 routes.put('/plans/:id', PlanController.update);
 routes.delete('/plans/:id', PlanController.delete);
 
 routes.post('/enrollments', EnrollmentController.store);
 routes.get('/enrollments', EnrollmentController.index);
+routes.get('/enrollments/:id', EnrollmentController.show);
 routes.put('/enrollments/:id', EnrollmentController.update);
 routes.delete('/enrollments/:id', EnrollmentController.delete);
 
 routes.post('/help-orders/:id/answers', UserHelpOrderController.store);
 routes.get('/help-orders/answers', UserHelpOrderController.index);
+routes.get('/help-orders/answers/:id', UserHelpOrderController.show);
 
 module.exports = routes;

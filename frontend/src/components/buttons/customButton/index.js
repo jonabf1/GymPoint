@@ -22,9 +22,10 @@ export default function CustomButton({
         loading={loading}
         color={color}
         type={type}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...rest}
       >
-        {loading ? <FaSpinner color="#fff" size={24} /> : children}
+        <div>{loading ? <FaSpinner color="#fff" size={24} /> : children}</div>
       </Container>
     </>
   );

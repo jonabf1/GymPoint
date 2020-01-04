@@ -14,14 +14,13 @@ import {
 
 export function* createStudents({ payload }) {
   try {
-    console.log(payload);
     const response = yield call(api.post, "/students", payload.data);
-
-    yield put(studentCreateSuccess(response.data));
 
     if (response) {
       toast.success("Estudante criado com sucesso");
     }
+
+    yield put(studentCreateSuccess(response.data));
 
     history.push("/students/list");
   } catch (err) {
@@ -45,12 +44,23 @@ export function* searchStudents({ payload }) {
       }
     });
 
+    const futureResponse = yield call(api.get, "/students", {
+      params: {
+        name: name || "",
+        page: page + 1
+      }
+    });
+
     if (response.data.length <= 0) {
       yield put(studentsFailure());
       return;
     }
 
+    // desabilitar botoes de navegacao
     let limit = false;
+    if (futureResponse.data.length === 0) {
+      limit = true;
+    }
     if (response.data.length < 10) {
       limit = true;
       yield put(studentSearchSuccess({ data: response.data, page, limit }));
@@ -87,6 +97,7 @@ export function* updateStudents({ payload }) {
     }
 
     yield put(studentUpdateSuccess());
+    history.push("/students/list");
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
   }

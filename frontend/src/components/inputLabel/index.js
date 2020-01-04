@@ -1,21 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Input } from "@rocketseat/unform";
-import { Label } from "./styles";
+import { Label, NewInput } from "./styles";
 
-export default function InputLabel({ step, type, name, placeholder, desc }) {
+export default function InputLabel({
+  step,
+  type,
+  name,
+  placeholder,
+  desc,
+  ...rest
+}) {
   return (
-    <>
+    <div>
       {desc && <Label htmlFor={name}>{desc}</Label>}
 
-      <Input
+      <NewInput
         step={step}
         type={type}
         name={name}
         id={name}
         placeholder={placeholder}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...rest}
       />
-    </>
+    </div>
   );
 }
 
