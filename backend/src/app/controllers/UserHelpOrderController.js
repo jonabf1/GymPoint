@@ -48,7 +48,7 @@ class HelpOrderController {
   }
 
   async index(req, res) {
-    const helpOrders = await HelpOrder.findAll({
+    const helpOrders = await HelpOrder.findAndCountAll({
       where: {
         answer: null,
       },

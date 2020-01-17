@@ -27,7 +27,7 @@ class PlanControler {
   async index(req, res) {
     const { page = 1 } = req.query;
 
-    const plans = await Plan.findAll({
+    const plans = await Plan.findAndCountAll({
       limit: 10,
       offset: (page - 1) * 10,
       order: ['title'],

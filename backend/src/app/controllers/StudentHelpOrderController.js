@@ -37,7 +37,7 @@ class StudentHelpOrderController {
     if (!student) {
       return res.status(400).json({ error: 'Student does not exist' });
     }
-    const helpOrders = await HelpOrder.findAll({
+    const helpOrders = await HelpOrder.findAndCountAll({
       where: {
         student_id: id,
       },

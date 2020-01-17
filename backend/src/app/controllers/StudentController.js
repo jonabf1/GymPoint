@@ -100,8 +100,8 @@ class StudentController {
 
     let students;
 
-    if (name !== '') {
-      students = await Student.findAll({
+    if (name) {
+      students = await Student.findAndCountAll({
         order: ['name'],
         where: {
           name: {
@@ -112,7 +112,7 @@ class StudentController {
         offset: (page - 1) * 10,
       });
     } else {
-      students = await Student.findAll({
+      students = await Student.findAndCountAll({
         limit: 10,
         offset: (page - 1) * 10,
         order: ['name'],
