@@ -10,10 +10,10 @@ import CustomButton from "../buttons/customButton";
 import EmptyList from "../emptyList";
 
 export default function ListController({
-  onAdd,
-  onRemove,
-  boolAdd,
-  boolRemove,
+  next,
+  back,
+  disableNext,
+  disableBack,
   page,
   empty
 }) {
@@ -22,9 +22,9 @@ export default function ListController({
       {empty ? (
         <>
           <CustomButton
-            onClick={onRemove}
+            onClick={back}
             type="submit"
-            bool={boolRemove}
+            bool={disableBack}
             width="auto"
             height="auto"
           >
@@ -32,8 +32,8 @@ export default function ListController({
           </CustomButton>
           <p>{page}</p>
           <CustomButton
-            onClick={onAdd}
-            bool={boolAdd}
+            onClick={next}
+            bool={disableNext}
             width="auto"
             height="auto"
             type="submit"
@@ -50,9 +50,9 @@ export default function ListController({
 
 ListController.propTypes = {
   page: PropTypes.number.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  boolAdd: PropTypes.bool.isRequired,
-  boolRemove: PropTypes.bool.isRequired,
+  next: PropTypes.func.isRequired,
+  back: PropTypes.func.isRequired,
+  disableNext: PropTypes.bool.isRequired,
+  disableBack: PropTypes.bool.isRequired,
   empty: PropTypes.bool.isRequired
 };

@@ -1,6 +1,6 @@
 export function studentUpdateRequest(data) {
   return {
-    type: "@student/STUDENT_UPDATE_REQUEST",
+    type: "@student/student_UPDATE_REQUEST",
     payload: { data }
   };
 }
@@ -26,6 +26,19 @@ export function studentCreateSuccess(data) {
   };
 }
 
+export function studentDeleteRequest(data) {
+  return {
+    type: "@student/STUDENT_DELETE_REQUEST",
+    payload: { data }
+  };
+}
+
+export function studentDeleteSuccess(data) {
+  return {
+    type: "@student/STUDENT_DELETE_SUCCESS",
+    payload: { data }
+  };
+}
 export function studentSearchRequest(data) {
   return {
     type: "@student/STUDENT_SEARCH_REQUEST",
@@ -40,21 +53,7 @@ export function studentSearchSuccess(data) {
   };
 }
 
-export function studentDeleteRequest(id) {
-  return {
-    type: "@student/STUDENT_DELETE_REQUEST",
-    payload: { id }
-  };
-}
-
-export function studentDeleteSuccess(id) {
-  return {
-    type: "@student/STUDENT_DELETE_SUCCESS",
-    payload: { id }
-  };
-}
-
-export function studentsFailure() {
+export function studentFailure() {
   return {
     type: "@student/STUDENT_FAILURE"
   };

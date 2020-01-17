@@ -26,17 +26,17 @@ export function enrollmentCreateSuccess(data) {
   };
 }
 
-export function enrollmentDeleteRequest(id) {
+export function enrollmentDeleteRequest(data) {
   return {
     type: "@enrollment/ENROLLMENT_DELETE_REQUEST",
-    payload: { id }
+    payload: { data }
   };
 }
 
-export function enrollmentDeleteSuccess(id) {
+export function enrollmentDeleteSuccess(data) {
   return {
     type: "@enrollment/ENROLLMENT_DELETE_SUCCESS",
-    payload: { id }
+    payload: { data }
   };
 }
 export function enrollmentSearchRequest(data) {

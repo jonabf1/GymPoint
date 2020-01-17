@@ -1,21 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "@rocketseat/unform";
-import * as Yup from "yup";
 import InputLabel from "../../components/inputLabel";
 import CustomButtom from "../../components/buttons/customButton";
 import logo from "../../assets/logo.svg";
 import { signInRequest } from "../../store/modules/auth/actions";
 import colors from "../../styles/colors";
 
-const schema = Yup.object().shape({
-  email: Yup.string()
-    .email("Insira um e-mail válido")
-    .required("O e-mail é obrigatório"),
-  password: Yup.string()
-    .min(6, "Insira uma senha válida")
-    .required("A senha é obrigatória")
-});
+import schema from "../../validators/signIn";
 
 export default function SignIn() {
   const dispatch = useDispatch();

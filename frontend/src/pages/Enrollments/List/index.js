@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { MdAdd } from "react-icons/md";
 import {
-  planSearchRequest,
-  planDeleteRequest
-} from "../../../store/modules/plan/actions";
+  enrollmentSearchRequest,
+  enrollmentDeleteRequest
+} from "../../../store/modules/enrollment/actions";
 
 import Modal from "../../../components/modal";
 import Header from "../../../components/base/header";
@@ -20,41 +20,41 @@ import TableGenerator from "../../../components/table/tableGenerator";
 
 import colors from "../../../styles/colors";
 
-export default function PlanList() {
+export default function EnrollmentList() {
   const dispatch = useDispatch();
-  const plans = useSelector(state => state.plan.plans);
-
+  const enrollments = useSelector(state => state.enrollment.enrollments);
   const [totalPages, setTotalPages] = useState();
 
   function handleUpdateList(page) {
-    dispatch(planSearchRequest({ page }));
+    dispatch(enrollmentSearchRequest({ page }));
   }
 
   useEffect(() => {
-    dispatch(planSearchRequest({ page: plans.page }));
+    dispatch(enrollmentSearchRequest({ page: enrollments.page }));
 
-    if (plans.count <= 10) {
+    if (enrollments.count <= 10) {
       handleUpdateList(1);
     }
 
-    setTotalPages(Math.ceil(plans.count / 10, 1));
+    setTotalPages(Math.ceil(enrollments.count / 10, 1));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, plans.count, plans.page]);
+  }, [dispatch, enrollments.count, enrollments.page]);
 
   async function confirmDelete(data) {
     const func = await Modal(data);
 
     if (func) {
-      dispatch(planDeleteRequest({ id: data.id, path: "plans" }));
+      dispatch(enrollmentDeleteRequest({ id: data.id }));
     }
   }
+
   return (
     <>
       <BaseContent>
         <Header>
-          <h1>Gerenciando planos</h1>
+          <h1>Gerenciando matrículas</h1>
           <div>
-            <Link to="/plans/new">
+            <Link to="/enrollments/new">
               <CustomButton
                 color={colors.buttonPageHeaderPrimary}
                 type="button"
@@ -68,52 +68,60 @@ export default function PlanList() {
 
         <Content>
           <Table>
-            {!plans.loading ? (
+            {!enrollments.loading ? (
               <>
                 <thead>
                   <tr>
-                    <th>TÍTULO</th>
-                    <th>DURAÇÃO</th>
-                    <th>VALOR p/ MÊS</th>
+                    <th>ALUNO</th>
+                    <th>PLANO</th>
+                    <th>INÍCIO</th>
+                    <th>TÉRMINO</th>
+                    <th>ATIVA</th>
                     <th />
                   </tr>
                 </thead>
 
                 <tbody>
-                  {plans.list.map(plan => (
+                  {enrollments.list.map(enrollment => (
                     <TableGenerator
-                      key={plan.id}
-                      data={plan}
-                      path={`/plans/edit/${plan.id}`}
+                      key={enrollment.id}
+                      data={enrollment}
                       onRemove={() => confirmDelete()}
+                      path={`/enrollments/edit/${enrollment.id}`}
                       onDelete={() =>
                         confirmDelete({
-                          id: plan.id,
+                          id: enrollment.id,
                           title: "Confirmar exclusão",
-                          text: `Deseja deletar o plano ${plan.title}?`,
+                          text: `Deseja deletar a matricula de ${enrollment.student.name}?`,
                           confirmText: "Deletar",
                           cancelText: "Cancelar",
                           icon: "warning",
                           finalText: "Deletado com sucesso!"
                         })
                       }
-                      fields={["title", "formattedDuration", "formattedPrice"]}
+                      fields={[
+                        "owner",
+                        "plan",
+                        "startDateFormatted",
+                        "endDateFormatted",
+                        "active"
+                      ]}
                     />
                   ))}
                 </tbody>
               </>
             ) : (
-              <Loading loading={plans.loading} />
+              <Loading loading={enrollments.loading} />
             )}
           </Table>
-          {!plans.loading ? (
+          {!enrollments.loading ? (
             <ListController
-              empty={plans.list.length > 0}
-              next={() => handleUpdateList(plans.page + 1)}
-              back={() => handleUpdateList(plans.page - 1)}
-              disableBack={plans.page < 2}
-              disableNext={plans.page === totalPages}
-              page={plans.page}
+              empty={enrollments.list.length > 0}
+              next={() => handleUpdateList(enrollments.page + 1)}
+              back={() => handleUpdateList(enrollments.page - 1)}
+              disableBack={enrollments.page < 2}
+              disableNext={enrollments.page === totalPages}
+              page={enrollments.page}
             />
           ) : null}
         </Content>

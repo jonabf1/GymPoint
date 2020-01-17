@@ -9,7 +9,7 @@ export default function Loading({ loading }) {
     <>
       <Container loading={loading}>
         {loading && (
-          <FaSpinner color={color.buttonPageHeaderPrimary} size={35} />
+          <FaSpinner color={color.buttonPageHeaderPrimary} size={22} />
         )}
       </Container>
     </>

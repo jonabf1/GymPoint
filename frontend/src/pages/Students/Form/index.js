@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 
 import { Form } from "@rocketseat/unform";
 import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
 import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
 import {
   studentUpdateRequest,
@@ -21,26 +20,7 @@ import colors from "../../../styles/colors";
 
 import { Container } from "./styles";
 
-const schema = Yup.object().shape({
-  name: Yup.string().required("O nome é obrigatório"),
-  email: Yup.string()
-    .email("Insira um e-mail válido")
-    .required("O e-mail é obrigatório"),
-  age: Yup.number()
-    .min(10, "A idade deve ser maior que 10 anos")
-    .positive("Insira um numero válido")
-    .max(120, "Idade inválida")
-    .required("A idade é obrigatória")
-    .typeError("A idade é obrigatória"),
-  weight: Yup.number("Insira um número válido")
-    .required("O peso obrigatório")
-    .positive("Insira um numero válido")
-    .typeError("O peso é obrigatório"),
-  height: Yup.number("Insira um número válido")
-    .required("A altura é obrigatória")
-    .positive("Insira um numero válido")
-    .typeError("A altura é obrigatória")
-});
+import schema from "../../../validators/students";
 
 export default function StudentForm() {
   const [student, setStudent] = useState();
@@ -68,9 +48,26 @@ export default function StudentForm() {
 
   function handleSubmit({ email, name, weight, height, age }) {
     if (id) {
-      dispatch(studentUpdateRequest({ id, email, name, weight, height, age }));
+      dispatch(
+        studentUpdateRequest({
+          id,
+          email,
+          name,
+          weight,
+          height,
+          age,
+        })
+      );
     } else {
-      dispatch(studentCreateRequest({ email, name, weight, height, age }));
+      dispatch(
+        studentCreateRequest({
+          email,
+          name,
+          weight,
+          height,
+          age,
+        })
+      );
     }
   }
 

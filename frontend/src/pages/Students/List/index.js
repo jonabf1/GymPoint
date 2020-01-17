@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
 
 import api from "../../../services/api";
@@ -15,7 +13,6 @@ import Modal from "../../../components/modal";
 import Header from "../../../components/base/header";
 import BaseContent from "../../../components/base/baseContent";
 import Content from "../../../components/content";
-import CustomButton from "../../../components/buttons/customButton";
 import ButtonLink from "../../../components/buttons/ButtonLink";
 import Table from "../../../components/table/structure";
 import Loading from "../../../components/loading";
@@ -24,36 +21,47 @@ import AsyncSelect from "../../../components/selectAsync";
 import TableGenerator from "../../../components/table/tableGenerator";
 
 import colors from "../../../styles/colors";
+import CustomStyle from "./selectStyle";
 
 export default function StudentList() {
   const dispatch = useDispatch();
   const students = useSelector(state => state.student.students);
+
   const [studentSearchName, setStudentSearchName] = useState();
   const [studentSelected, setStudentSelected] = useState();
-
-  useEffect(() => {
-    if (students.page > 1 && students.list.length === 0) {
-      dispatch(studentSearchRequest({ name: "", page: students.page - 1 }));
-    }
-
-    dispatch(studentSearchRequest({ name: "", page: students.page }));
-  }, [dispatch, students.list.length, students.page]);
+  const [totalPages, setTotalPages] = useState();
 
   function handleUpdateList(page) {
-    dispatch(studentSearchRequest({ name: "", page }));
+    dispatch(studentSearchRequest({ page }));
   }
+
+  useEffect(() => {
+    dispatch(studentSearchRequest({ page: students.page }));
+
+    if (students.count <= 10) {
+      handleUpdateList(1);
+    }
+
+    setTotalPages(Math.ceil(students.count / 10, 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, students.count, students.page]);
 
   async function confirmDelete(data) {
     const func = await Modal(data);
 
     if (func) {
-      dispatch(studentDeleteRequest(data.id));
+      dispatch(studentDeleteRequest({ id: data.id }));
     }
   }
 
   async function loadStudents() {
-    const response = await api.get(`/students?name=${studentSearchName}`);
-    return response.data;
+    try {
+      const response = await api.get(`/students?name=${studentSearchName}`);
+    console.log(response)
+      return response.data.rows;
+    } catch (err) {
+      return err;
+    }
   }
 
   function generator(data) {
@@ -62,6 +70,7 @@ export default function StudentList() {
         key={data.id}
         data={data}
         onSearch={data}
+        identify="students"
         onRemove={() => confirmDelete()}
         path={`/students/edit/${data.id}`}
         onDelete={() =>
@@ -100,10 +109,12 @@ export default function StudentList() {
               ) : (
                 <MdAdd size={24} color="#fff" />
               )}
+
               {studentSelected ? "VOLTAR" : "CADASTRAR"}
             </ButtonLink>
             <AsyncSelect
               placeholder="Buscar aluno"
+              styles={CustomStyle}
               onChange={e => setStudentSelected(e)}
               loadOptions={loadStudents}
               onInputChange={v => setStudentSearchName(v)}
@@ -123,7 +134,6 @@ export default function StudentList() {
                     <th />
                   </tr>
                 </thead>
-
                 <tbody>
                   {studentSelected
                     ? generator(studentSelected)
@@ -134,13 +144,14 @@ export default function StudentList() {
               <Loading loading={students.loading} />
             )}
           </Table>
+
           {!students.loading ? (
             <ListController
               empty={students.list.length > 0}
-              onAdd={() => handleUpdateList(students.page + 1)}
-              onRemove={() => handleUpdateList(students.page - 1)}
-              boolAdd={students.limit}
-              boolRemove={students.page < 2}
+              next={() => handleUpdateList(students.page + 1)}
+              back={() => handleUpdateList(students.page - 1)}
+              disableBack={students.page < 2}
+              disableNext={students.page === totalPages}
               page={students.page}
             />
           ) : null}

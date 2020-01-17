@@ -9,28 +9,17 @@ export default function SelectAsync({
   onInputChange,
   ...rest
 }) {
-  const customStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? "white" : "blue",
-      padding: 20
-    }),
-    control: styles => ({
-      ...styles,
-      marginLeft: 10,
-      width: 200
-    })
-  };
   return (
     <div>
       <Async
-        defaultValue={null}
+        cacheOptions
+        defaultOptions
         loadOptions={loadOptions}
-        styles={customStyles}
         onInputChange={onInputChange}
         onChange={onChange}
         getOptionValue={option => option.id}
-        getOptionLabel={option => option.name}
+        getOptionLabel={option => (option.name ? option.name : option.title)}
+        noOptionsMessage={() => "Nenhum registro localizado"}
         placeholder={placeholder}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...rest}

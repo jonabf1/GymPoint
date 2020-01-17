@@ -1,8 +1,9 @@
 import { all, takeLatest, call, put } from "redux-saga/effects";
 
 import { toast } from "react-toastify";
-import history from "../../../services/history";
 import api from "../../../services/api";
+
+import { formatPrice } from "../../../util/format";
 
 import {
   planFailure,
@@ -14,14 +15,11 @@ import {
 
 export function* createPlans({ payload }) {
   try {
-    const response = yield call(api.post, "/plans", payload.data);
+    const response = yield call(api.post, `/plans`, payload.data);
 
-    if (response.status === 200) {
-      toast.success("Plano criado com sucesso");
-    }
+    toast.success(`Plano criado com sucesso`);
 
     yield put(planCreateSuccess(response.data));
-
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
     yield put(planFailure());
@@ -30,7 +28,7 @@ export function* createPlans({ payload }) {
 
 export function* deletePlans({ payload }) {
   try {
-    yield call(api.delete, `/plans/${payload.id}`);
+    yield call(api.delete, `/plans/${payload.data.id}`);
 
     yield put(planDeleteSuccess(payload.id));
   } catch (err) {
@@ -43,37 +41,23 @@ export function* searchPlans({ payload }) {
   try {
     const { page } = payload;
 
-    if (page <= 0) {
-      return;
-    }
-
-    const response = yield call(api.get, "/plans", {
+    const response = yield call(api.get, `/plans`, {
       params: {
         page
       }
     });
 
-    const futureResponse = yield call(api.get, "/plans", {
-      params: {
-        page: page + 1
-      }
+    const data = response.data.rows.map(item => {
+      return { ...item, formattedPrice: formatPrice(item.price), formattedDuration: item.duration > 1 ? `${item.duration} meses` : `${item.duration} mês` };
     });
 
-    if (response.data.length <= 0) {
-      yield put(planFailure());
-      return;
-    }
-
-    let limit = false;
-    if (futureResponse.data.length === 0) {
-      limit = true;
-    }
-    if (response.data.length < 10) {
-      limit = true;
-      yield put(planSearchSuccess({ data: response.data, page, limit }));
-    }
-
-    yield put(planSearchSuccess({ data: response.data, page, limit }));
+    yield put(
+      planSearchSuccess({
+        data,
+        count: response.data.count,
+        page
+      })
+    );
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
     yield put(planFailure());
@@ -89,11 +73,10 @@ export function* updatePlans({ payload }) {
     );
 
     if (response.status === 200) {
-      toast.success("Plano editado com sucesso");
+      toast.success("plano editado com sucesso");
     }
 
     yield put(planUpdateSuccess());
-    history.push("/plans/list");
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
   }

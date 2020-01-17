@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import produce from "immer";
 
 const INITIAL_STATE = {
@@ -5,7 +6,8 @@ const INITIAL_STATE = {
     loading: false,
     list: [],
     page: 1,
-    limit: false
+    count: 0,
+    countRequest: 0
   }
 };
 
@@ -35,7 +37,9 @@ export default function enrollment(state = INITIAL_STATE, action) {
       }
       case "@enrollment/ENROLLMENT_SEARCH_SUCCESS": {
         draft.enrollments.page = action.payload.page;
-        draft.enrollments.limit = action.payload.limit;
+
+        draft.enrollments.count = action.payload.count;
+
         draft.enrollments.list = action.payload.data;
         draft.enrollments.loading = false;
         break;

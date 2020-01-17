@@ -1,107 +1,97 @@
 import { all, takeLatest, call, put } from "redux-saga/effects";
 
 import { toast } from "react-toastify";
-import history from "../../../services/history";
 import api from "../../../services/api";
+import formatDate from "../../../util/formatDate";
 
 import {
-  planFailure,
-  planDeleteSuccess,
-  planCreateSuccess,
-  planUpdateSuccess,
-  planSearchSuccess
+  enrollmentFailure,
+  enrollmentDeleteSuccess,
+  enrollmentCreateSuccess,
+  enrollmentUpdateSuccess,
+  enrollmentSearchSuccess
 } from "./actions";
 
-export function* createPlans({ payload }) {
+export function* createEnrollments({ payload }) {
   try {
-    const response = yield call(api.post, "/plans", payload.data);
+    const response = yield call(api.post, `/enrollments`, payload.data);
 
-    if (response.status === 200) {
-      toast.success("Plano criado com sucesso");
-    }
+    toast.success(`Matricula criada com sucesso`);
 
-    yield put(planCreateSuccess(response.data));
-
+    yield put(enrollmentCreateSuccess(response.data));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
-    yield put(planFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* deletePlans({ payload }) {
+export function* deleteEnrollments({ payload }) {
   try {
-    yield call(api.delete, `/plans/${payload.id}`);
+    yield call(api.delete, `/enrollments/${payload.data.id}`);
 
-    yield put(planDeleteSuccess(payload.id));
+    yield put(enrollmentDeleteSuccess(payload.id));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
-    yield put(planFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* searchPlans({ payload }) {
+export function* searchEnrollments({ payload }) {
   try {
     const { page } = payload;
 
-    if (page <= 0) {
-      return;
-    }
-
-    const response = yield call(api.get, "/plans", {
+    const response = yield call(api.get, `/enrollments`, {
       params: {
         page
       }
     });
 
-    const futureResponse = yield call(api.get, "/plans", {
-      params: {
-        page: page + 1
-      }
+    const data = response.data.rows.map(item => {
+      return {
+        ...item,
+        startDateFormatted: formatDate(item.start_date),
+        endDateFormatted: formatDate(item.end_date),
+        owner: item.student.name,
+        ownerId: item.student.id,
+        plan: item.plan.title,
+        planId: item.plan.id
+      };
     });
 
-    if (response.data.length <= 0) {
-      yield put(planFailure());
-      return;
-    }
-
-    let limit = false;
-    if (futureResponse.data.length === 0) {
-      limit = true;
-    }
-    if (response.data.length < 10) {
-      limit = true;
-      yield put(planSearchSuccess({ data: response.data, page, limit }));
-    }
-
-    yield put(planSearchSuccess({ data: response.data, page, limit }));
+    yield put(
+      enrollmentSearchSuccess({
+        data,
+        count: response.data.count,
+        page
+      })
+    );
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
-    yield put(planFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* updatePlans({ payload }) {
+export function* updateEnrollments({ payload }) {
   try {
     const response = yield call(
       api.put,
-      `/plans/${payload.data.id}`,
+      `/enrollments/${payload.data.id}`,
       payload.data
     );
 
     if (response.status === 200) {
-      toast.success("Plano editado com sucesso");
+      toast.success("enrollmento editado com sucesso");
     }
 
-    yield put(planUpdateSuccess());
-    history.push("/plans/list");
+    yield put(enrollmentUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
   }
 }
 
 export default all([
-  takeLatest("@plan/PLAN_DELETE_REQUEST", deletePlans),
-  takeLatest("@plan/PLAN_CREATE_REQUEST", createPlans),
-  takeLatest("@plan/PLAN_UPDATE_REQUEST", updatePlans),
-  takeLatest("@plan/PLAN_SEARCH_REQUEST", searchPlans)
+  takeLatest("@enrollment/ENROLLMENT_DELETE_REQUEST", deleteEnrollments),
+  takeLatest("@enrollment/ENROLLMENT_CREATE_REQUEST", createEnrollments),
+  takeLatest("@enrollment/ENROLLMENT_UPDATE_REQUEST", updateEnrollments),
+  takeLatest("@enrollment/ENROLLMENT_SEARCH_REQUEST", searchEnrollments)
 ]);

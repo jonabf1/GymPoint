@@ -26,17 +26,17 @@ export function planCreateSuccess(data) {
   };
 }
 
-export function planDeleteRequest(id) {
+export function planDeleteRequest(data) {
   return {
     type: "@plan/PLAN_DELETE_REQUEST",
-    payload: { id }
+    payload: { data }
   };
 }
 
-export function planDeleteSuccess(id) {
+export function planDeleteSuccess(data) {
   return {
     type: "@plan/PLAN_DELETE_SUCCESS",
-    payload: { id }
+    payload: { data }
   };
 }
 export function planSearchRequest(data) {

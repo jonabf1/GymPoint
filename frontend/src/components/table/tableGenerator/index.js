@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { MdFiberManualRecord } from "react-icons/md";
 import TextLink from "../../buttons/TextLink";
-
 import color from "../../../styles/colors";
-
-import { formatPrice } from "../../../util/format";
 
 export default function TableGenerator({
   data,
@@ -19,8 +17,10 @@ export default function TableGenerator({
       {onSearch
         ? fields.map(field => <td>{onSearch[field]}</td>)
         : fields.map(field =>
-            field === "price" ? (
-              <td>{formatPrice(data[field])}</td>
+            field === "active" && data.active ? (
+              <td>
+                <MdFiberManualRecord color="#6DC81E" size={20} />
+              </td>
             ) : (
               <td>{data[field]}</td>
             )

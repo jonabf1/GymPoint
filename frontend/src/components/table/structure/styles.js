@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.table`
-  border-collapse: collapse;
-  border-radius: 4px;
+  border: none;
+  background: #fff;
   width: 100%;
+  border-radius: 0.4rem;
+  padding: 1.5rem;
+  border-collapse: collapse;
 
   tr:last-child td {
     border-bottom: none;

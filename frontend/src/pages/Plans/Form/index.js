@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-
 import { Form } from "@rocketseat/unform";
-
 import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+
 import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
 import {
   planUpdateRequest,
@@ -20,23 +18,9 @@ import CustomButton from "../../../components/buttons/customButton";
 import InputLabel from "../../../components/inputLabel";
 
 import colors from "../../../styles/colors";
-
 import { Container } from "./styles";
-
 import { formatPrice } from "../../../util/format";
-
-const schema = Yup.object().shape({
-  title: Yup.string().required("O nome é obrigatório"),
-  duration: Yup.number()
-    .min(1, "A duração é de no minimo um mês")
-    .positive("Insira um número válido")
-    .required("A duração é obrigatória")
-    .typeError("A duração é obrigatória"),
-  price: Yup.number("Insira um número válido")
-    .required("O preço obrigatório")
-    .positive("Insira um numero válido")
-    .typeError("O preço é obrigatório")
-});
+import schema from "../../../validators/plans";
 
 export default function PlanForm() {
   const [plan, setPlan] = useState();
@@ -73,9 +57,27 @@ export default function PlanForm() {
   function handleSubmit(data) {
     if (id) {
       const { title } = data;
-      dispatch(planUpdateRequest({ price, title, duration, id }));
+      dispatch(
+        planUpdateRequest({
+          price,
+          title,
+          duration,
+          id,
+          path: "plans",
+          customMSG: "Plano"
+        })
+      );
     } else {
-      dispatch(planCreateRequest(data));
+      const { title } = data;
+      dispatch(
+        planCreateRequest({
+          price,
+          title,
+          duration,
+          path: "plans",
+          customMSG: "Plano"
+        })
+      );
     }
   }
 
