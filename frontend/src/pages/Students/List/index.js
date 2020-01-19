@@ -57,7 +57,6 @@ export default function StudentList() {
   async function loadStudents() {
     try {
       const response = await api.get(`/students?name=${studentSearchName}`);
-    console.log(response)
       return response.data.rows;
     } catch (err) {
       return err;

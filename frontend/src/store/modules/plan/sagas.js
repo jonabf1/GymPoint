@@ -48,7 +48,12 @@ export function* searchPlans({ payload }) {
     });
 
     const data = response.data.rows.map(item => {
-      return { ...item, formattedPrice: formatPrice(item.price), formattedDuration: item.duration > 1 ? `${item.duration} meses` : `${item.duration} mês` };
+      return {
+        ...item,
+        formattedPrice: formatPrice(item.price),
+        formattedDuration:
+          item.duration > 1 ? `${item.duration} meses` : `${item.duration} mês`
+      };
     });
 
     yield put(
@@ -66,19 +71,14 @@ export function* searchPlans({ payload }) {
 
 export function* updatePlans({ payload }) {
   try {
-    const response = yield call(
-      api.put,
-      `/plans/${payload.data.id}`,
-      payload.data
-    );
+    yield call(api.put, `/plans/${payload.data.id}`, payload.data);
 
-    if (response.status === 200) {
-      toast.success("plano editado com sucesso");
-    }
+    toast.success("Plano editado com sucesso");
 
     yield put(planUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
+    yield put(planFailure());
   }
 }
 

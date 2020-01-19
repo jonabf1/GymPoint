@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import color from "./colors";
 

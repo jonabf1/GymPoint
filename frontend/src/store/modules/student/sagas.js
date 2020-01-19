@@ -13,11 +13,7 @@ import {
 
 export function* createStudents({ payload }) {
   try {
-    const response = yield call(
-      api.post,
-      `/students`,
-      payload.data
-    );
+    const response = yield call(api.post, `/students`, payload.data);
 
     toast.success(`Estudante criado com sucesso`);
 
@@ -65,19 +61,14 @@ export function* searchStudents({ payload }) {
 
 export function* updateStudents({ payload }) {
   try {
-    const response = yield call(
-      api.put,
-      `/students/${payload.data.id}`,
-      payload.data
-    );
+    yield call(api.put, `/students/${payload.data.id}`, payload.data);
 
-    if (response.status === 200) {
-      toast.success("studento editado com sucesso");
-    }
+    toast.success("Estudante editado com sucesso");
 
     yield put(studentUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
+    yield put(studentFailure());
   }
 }
 

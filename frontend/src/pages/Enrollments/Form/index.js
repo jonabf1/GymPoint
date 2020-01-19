@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Form } from "@rocketseat/unform";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import AsyncSelect from "react-select/async";
 
 import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
+import DatePicker from "react-datepicker";
 
+import { addMonths, format } from "date-fns";
 import {
   enrollmentUpdateRequest,
   enrollmentCreateRequest
@@ -19,26 +20,36 @@ import Content from "../../../components/content";
 import ButtonLink from "../../../components/buttons/ButtonLink";
 import CustomButton from "../../../components/buttons/customButton";
 import InputLabel from "../../../components/inputLabel";
+import { Label } from "../../../components/inputLabel/styles";
 
 import colors from "../../../styles/colors";
 import { Container } from "./styles";
+import { formatPrice } from "../../../util/format";
+import schema from "../../../validators/enrollments";
+import customStyles from "./selectStyle";
 
 export default function EnrollmentForm() {
   const { id } = useParams();
   const enrollment = useSelector(state => state.enrollment.enrollments);
   const dispatch = useDispatch();
-  const [data, setData] = useState();
-  const [planSelected, setPlanSelected] = useState();
+
+  const [userByID, setUserByID] = useState({});
+  const [planSelected, setPlanSelected] = useState({});
   const [studentSelected, setStudentSelected] = useState();
+  const [dateSelected, setDateSelected] = useState(new Date());
   const [optionsPlan, setOptionsPlan] = useState();
   const [optionsStudent, setOptionsStudent] = useState();
-  const [studentSearchName, setStudentSearchName] = useState();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function searchEnrollment() {
+  const final_date = useMemo(
+    () => addMonths(dateSelected, planSelected.duration || 0),
+    [dateSelected, planSelected.duration]
+  );
+
+  async function searchUserByEnrollment() {
     try {
       const response = await api.get(`/enrollments/${id}`);
-      return setData(response.data);
+      const user = await api.get(`/students/${response.data.student_id}`);
+      return setUserByID(user.data);
     } catch (err) {
       return err;
     }
@@ -56,59 +67,34 @@ export default function EnrollmentForm() {
   async function getPlans() {
     try {
       const response = await api.get(`/plans`);
-      return setOptionsPlan(response.data.rows)
+      return setOptionsPlan(response.data.rows);
     } catch (err) {
-      return err;
-    }
-  }
-
-  async function loadStudents() {
-    try{
-    const response = await api.get(`/students?name=${studentSearchName}`);
-    return response.data.rows;}
-    catch(err){
       return err;
     }
   }
 
   useEffect(() => {
     if (id) {
-      searchEnrollment();
+      searchUserByEnrollment();
     }
     getPlans();
     getStudents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  function handleSubmit(data) {
+  function handleSubmit() {
+    const object = {
+      student_id: id ? userByID.id : studentSelected.id,
+      plan_id: planSelected.id,
+      start_date: dateSelected
+    };
+
     if (id) {
-      const { title } = data;
-      dispatch(
-        enrollmentUpdateRequest({
-          id
-        })
-      );
+      dispatch(enrollmentUpdateRequest(object));
     } else {
-      const { title } = data;
-      dispatch(
-        enrollmentCreateRequest({
-          title
-        })
-      );
+      dispatch(enrollmentCreateRequest(object));
     }
   }
-
-  const customStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? "white" : "blue"
-    }),
-    control: styles => ({
-      ...styles,
-      width: 200,
-      marginRight: 10
-    })
-  };
 
   return (
     <BaseContent>
@@ -126,7 +112,7 @@ export default function EnrollmentForm() {
           </ButtonLink>
 
           <CustomButton
-            form="form"
+            onClick={handleSubmit}
             loading={enrollment.loading}
             bool={enrollment.loading}
             color={colors.buttonPageHeaderPrimary}
@@ -138,20 +124,21 @@ export default function EnrollmentForm() {
         </div>
       </Header>
       <Content>
-        <Form id="form" initialData={'s'} schema="schema" onSubmit={handleSubmit}>
-           <AsyncSelect
-            placeholder="Selecione o aluno"
+        <Form schema={schema} onSubmit={handleSubmit}>
+          <Select
+            name="student"
+            placeholder={userByID.name || "Procurar o aluno"}
+            isDisabled={userByID.name && true}
             defaultValue={null}
             options={optionsStudent}
             getOptionValue={option => option.id}
             getOptionLabel={option => option.name}
             noOptionsMessage={() => "Nenhum estudante cadastrado"}
-            onChange={s => setStudentSelected(s.id)}
-            onInputChange={v => setStudentSearchName(v)}
+            onChange={s => setStudentSelected(s)}
           />
-
           <Container>
             <Select
+              name="plan"
               options={optionsPlan}
               defaultValue={null}
               styles={customStyles}
@@ -163,18 +150,35 @@ export default function EnrollmentForm() {
               onChange={e => setPlanSelected(e)}
             />
 
-            <InputLabel desc="DATA DE INICIO" type="date" name="date" />
+            <div>
+              <Label>DATA DE INICIO</Label>
+              <DatePicker
+                name="date"
+                selected={dateSelected}
+                minDate={new Date()}
+                onChange={e => setDateSelected(e)}
+                dateFormat="dd/MM/yyyy"
+              />
+            </div>
+
             <InputLabel
               desc="DATA DE TÉRMINO"
-              type="date"
+              type="text"
               name="final_date"
+              placeholder={
+                planSelected.title ? format(final_date, "dd/MM/yyyy") : "-"
+              }
               disabled
             />
 
             <InputLabel
               type="text"
-              value={planSelected.price || 0}
-              desc="VALOR FINAL"
+              placeholder={
+                planSelected.price
+                  ? formatPrice(planSelected.price)
+                  : formatPrice(0)
+              }
+              desc="VALOR MENSAL"
               name="totalPrice"
               disabled
             />

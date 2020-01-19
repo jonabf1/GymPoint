@@ -1,6 +1,6 @@
 export function studentUpdateRequest(data) {
   return {
-    type: "@student/student_UPDATE_REQUEST",
+    type: "@student/STUDENT_UPDATE_REQUEST",
     payload: { data }
   };
 }

@@ -20,7 +20,7 @@ export const Container = styled.button.attrs(props => ({
   font-size: 1.4rem;
   font-weight: bold;
   border: 0;
-  background: ${props => props.color};
+  background: ${props => (props.color ? props.color : "#fff;")};
   transition: background 0.3s;
   display: flex;
   align-items: center;

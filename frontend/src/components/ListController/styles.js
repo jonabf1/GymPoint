@@ -7,6 +7,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
+  button {
+    border: 0;
+    background: none;
+  }
+
   p {
     color: ${color.labelAuth};
     margin: 0 20px 0 20px;

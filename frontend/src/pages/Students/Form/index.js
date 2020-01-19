@@ -46,28 +46,12 @@ export default function StudentForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  function handleSubmit({ email, name, weight, height, age }) {
+  function handleSubmit(data) {
     if (id) {
-      dispatch(
-        studentUpdateRequest({
-          id,
-          email,
-          name,
-          weight,
-          height,
-          age,
-        })
-      );
+      console.log("entrou");
+      dispatch(studentUpdateRequest({ ...data, id }));
     } else {
-      dispatch(
-        studentCreateRequest({
-          email,
-          name,
-          weight,
-          height,
-          age,
-        })
-      );
+      dispatch(studentCreateRequest(data));
     }
   }
 

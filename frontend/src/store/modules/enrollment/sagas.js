@@ -20,8 +20,8 @@ export function* createEnrollments({ payload }) {
 
     yield put(enrollmentCreateSuccess(response.data));
   } catch (err) {
-    toast.error("Ocorreu um erro na requisição");
     yield put(enrollmentFailure());
+    toast.error("Ocorreu um erro na requisição");
   }
 }
 
@@ -31,8 +31,8 @@ export function* deleteEnrollments({ payload }) {
 
     yield put(enrollmentDeleteSuccess(payload.id));
   } catch (err) {
-    toast.error("Ocorreu um erro na requisição");
     yield put(enrollmentFailure());
+    toast.error("Ocorreu um erro na requisição");
   }
 }
 
@@ -66,25 +66,21 @@ export function* searchEnrollments({ payload }) {
       })
     );
   } catch (err) {
-    toast.error("Ocorreu um erro na requisição");
     yield put(enrollmentFailure());
+    toast.error("Ocorreu um erro na requisição");
   }
 }
 
 export function* updateEnrollments({ payload }) {
+  console.log("entrou aqui");
   try {
-    const response = yield call(
-      api.put,
-      `/enrollments/${payload.data.id}`,
-      payload.data
-    );
+    yield call(api.put, `/enrollments/`, {}, payload.data);
 
-    if (response.status === 200) {
-      toast.success("enrollmento editado com sucesso");
-    }
+    toast.success("Matricula editado com sucesso");
 
     yield put(enrollmentUpdateSuccess());
   } catch (err) {
+    yield put(enrollmentFailure());
     toast.error("Ocorreu um erro na requisição");
   }
 }
