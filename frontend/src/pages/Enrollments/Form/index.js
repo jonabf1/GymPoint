@@ -89,11 +89,9 @@ export default function EnrollmentForm() {
       start_date: dateSelected
     };
 
-    if (id) {
-      dispatch(enrollmentUpdateRequest(object));
-    } else {
-      dispatch(enrollmentCreateRequest(object));
-    }
+    return id
+      ? dispatch(enrollmentUpdateRequest(object))
+      : dispatch(enrollmentCreateRequest(object));
   }
 
   return (

@@ -2,6 +2,7 @@ const Yup = require('yup');
 const { Op } = require('sequelize');
 const Student = require('../models/Student');
 const User = require('../models/User');
+const Enrollment = require('../models/Enrollment');
 
 class StudentController {
   async store(req, res) {
@@ -98,6 +99,7 @@ class StudentController {
   async index(req, res) {
     const { name, page = 1 } = req.query;
 
+    
     let students;
 
     if (name) {
@@ -111,7 +113,8 @@ class StudentController {
         limit: 10,
         offset: (page - 1) * 10,
       });
-    } else {
+    }
+    else{
       students = await Student.findAndCountAll({
         limit: 10,
         offset: (page - 1) * 10,

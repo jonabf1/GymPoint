@@ -1,6 +1,7 @@
 import { all, takeLatest, call, put } from "redux-saga/effects";
 
 import { toast } from "react-toastify";
+import history from "../../../services/history";
 import api from "../../../services/api";
 
 import {
@@ -17,6 +18,7 @@ export function* createStudents({ payload }) {
 
     toast.success(`Estudante criado com sucesso`);
 
+    history.push('/students/list')
     yield put(studentCreateSuccess(response.data));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
@@ -65,6 +67,7 @@ export function* updateStudents({ payload }) {
 
     toast.success("Estudante editado com sucesso");
 
+    history.push('/students/list')
     yield put(studentUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");

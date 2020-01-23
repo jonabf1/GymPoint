@@ -2,6 +2,7 @@ import { all, takeLatest, call, put } from "redux-saga/effects";
 
 import { toast } from "react-toastify";
 import api from "../../../services/api";
+import history from "../../../services/history";
 
 import { formatPrice } from "../../../util/format";
 
@@ -18,7 +19,7 @@ export function* createPlans({ payload }) {
     const response = yield call(api.post, `/plans`, payload.data);
 
     toast.success(`Plano criado com sucesso`);
-
+    history.push("/plans/list");
     yield put(planCreateSuccess(response.data));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
@@ -75,6 +76,7 @@ export function* updatePlans({ payload }) {
 
     toast.success("Plano editado com sucesso");
 
+    history.push("/plans/list");
     yield put(planUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");

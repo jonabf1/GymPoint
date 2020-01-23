@@ -72,7 +72,7 @@ export default function StudentList() {
         identify="students"
         onRemove={() => confirmDelete()}
         path={`/students/edit/${data.id}`}
-        onDelete={() =>
+        onConfirm={() =>
           confirmDelete({
             id: data.id,
             title: "Confirmar exclusão",

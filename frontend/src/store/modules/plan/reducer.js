@@ -50,9 +50,9 @@ export default function plan(state = INITIAL_STATE, action) {
         break;
       }
       case "@plan/PLAN_DELETE_SUCCESS": {
-        const filter = state.plans.list.filter(i => i.id !== action.payload.id);
-
-        draft.plans.list = filter;
+        draft.plans.list = state.plans.list.filter(
+          i => i.id !== action.payload.id
+        );
         draft.plans.loading = false;
         break;
       }

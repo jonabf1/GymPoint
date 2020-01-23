@@ -86,7 +86,7 @@ export default function PlanList() {
                       data={plan}
                       path={`/plans/edit/${plan.id}`}
                       onRemove={() => confirmDelete()}
-                      onDelete={() =>
+                      onConfirm={() =>
                         confirmDelete({
                           id: plan.id,
                           title: "Confirmar exclusão",

@@ -133,15 +133,11 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Student does not exist' });
     }
 
-    const planForAnyUserExist = await Enrollment.findOne({
+    const enrollmentExist = await Enrollment.findOne({
       where: {
         student_id,
       },
     });
-
-    if (plan_id === planForAnyUserExist.plan_id) {
-      return res.status(401).json({ error: 'User is already in this plan' });
-    }
 
     const price = plan.price * plan.duration;
 
@@ -150,7 +146,7 @@ class EnrollmentController {
       plan.duration,
     );
 
-    const enrollment = await Enrollment.update({
+    const enrollment = await enrollmentExist.update({
       start_date,
       end_date: dateFormatted,
       price,

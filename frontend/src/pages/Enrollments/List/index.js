@@ -88,7 +88,7 @@ export default function EnrollmentList() {
                       data={enrollment}
                       onRemove={() => confirmDelete()}
                       path={`/enrollments/edit/${enrollment.id}`}
-                      onDelete={() =>
+                      onConfirm={() =>
                         confirmDelete({
                           id: enrollment.id,
                           title: "Confirmar exclusão",

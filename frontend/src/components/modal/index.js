@@ -7,18 +7,22 @@ export default async function Modal({
   confirmText,
   cancelText,
   finalText,
-  icon
+  icon,
+  inputPlaceholder,
+  ...rest
 }) {
   let response;
   await Swal.fire({
     title,
     text,
     icon,
+    inputPlaceholder,
     showCancelButton: true,
     confirmButtonColor: color.buttonPageHeaderPrimary,
     cancelButtonColor: color.buttonPageHeaderSecondary,
     confirmButtonText: confirmText,
-    cancelButtonText: cancelText
+    cancelButtonText: cancelText,
+    ...rest
   }).then(result => {
     if (result.value) {
       Swal.fire(finalText, "", "success");

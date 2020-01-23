@@ -9,9 +9,9 @@ import StudentList from "../pages/Students/List";
 import StudentForm from "../pages/Students/Form";
 import PlanList from "../pages/Plans/List";
 import PlanForm from "../pages/Plans/Form";
-import HelpOrder from "../pages/HelpOrder";
 import EnrollmentsList from "../pages/Enrollments/List";
 import EnrollmentsForm from "../pages/Enrollments/Form";
+import HelpOrder from "../pages/HelpOrder";
 
 export default function Routes() {
   return (

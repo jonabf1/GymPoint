@@ -1,14 +1,15 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 
-import { MdFiberManualRecord } from "react-icons/md";
+import { MdCheckCircle, MdCancel } from "react-icons/md";
 import TextLink from "../../buttons/TextLink";
 import color from "../../../styles/colors";
 
 export default function TableGenerator({
   data,
   path,
-  onDelete,
+  onConfirm,
   fields,
   onSearch
 }) {
@@ -17,9 +18,10 @@ export default function TableGenerator({
       {onSearch
         ? fields.map(field => <td>{onSearch[field]}</td>)
         : fields.map(field =>
-            field === "active" && data.active ? (
+            field === "active" ? (
               <td>
-                <MdFiberManualRecord color="#6DC81E" size={20} />
+                {data.active && <MdCheckCircle color="#6DC81E" size={20} />}
+                {!data.active && <MdCancel color="gray" size={20} />}
               </td>
             ) : (
               <td>{data[field]}</td>
@@ -29,7 +31,7 @@ export default function TableGenerator({
         <TextLink to={path} color={color.editTable}>
           editar
         </TextLink>
-        <TextLink type="button" onClick={onDelete} color={color.deleteTable}>
+        <TextLink type="button" onClick={onConfirm} color={color.deleteTable}>
           apagar
         </TextLink>
       </td>
@@ -58,7 +60,7 @@ TableGenerator.propTypes = {
     PropTypes.number
   ]).isRequired,
   path: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onConfirm: PropTypes.func.isRequired
 };
 
 TableGenerator.defaultProps = {

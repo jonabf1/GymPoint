@@ -2,6 +2,7 @@ import { all, takeLatest, call, put } from "redux-saga/effects";
 
 import { toast } from "react-toastify";
 import api from "../../../services/api";
+import history from "../../../services/history";
 import formatDate from "../../../util/formatDate";
 
 import {
@@ -18,6 +19,7 @@ export function* createEnrollments({ payload }) {
 
     toast.success(`Matricula criada com sucesso`);
 
+    history.push("/enrollments/list");
     yield put(enrollmentCreateSuccess(response.data));
   } catch (err) {
     yield put(enrollmentFailure());
@@ -72,12 +74,15 @@ export function* searchEnrollments({ payload }) {
 }
 
 export function* updateEnrollments({ payload }) {
-  console.log("entrou aqui");
   try {
-    yield call(api.put, `/enrollments/`, {}, payload.data);
+    yield call(
+      api.put,
+      `/enrollments/${payload.data.student_id}`,
+      payload.data
+    );
 
+    history.push("/enrollments/list");
     toast.success("Matricula editado com sucesso");
-
     yield put(enrollmentUpdateSuccess());
   } catch (err) {
     yield put(enrollmentFailure());
