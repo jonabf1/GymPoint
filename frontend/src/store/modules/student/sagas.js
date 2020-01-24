@@ -28,6 +28,7 @@ export function* createStudents({ payload }) {
 
 export function* deleteStudents({ payload }) {
   try {
+    console.log(payload);
     yield call(api.delete, `/students/${payload.data.id}`);
 
     yield put(studentDeleteSuccess({ id: payload.data.id }));

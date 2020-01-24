@@ -85,6 +85,7 @@ class StudentController {
 
   async delete(req, res) {
     const { id } = req.params;
+    
     const student = await Student.findByPk(id);
 
     if (!student) {
