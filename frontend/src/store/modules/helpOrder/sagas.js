@@ -34,9 +34,19 @@ export function* searchHelpOrder({ payload }) {
       }
     });
 
+    const newData = response.data.rows.map(item => {
+      return {
+        ...item,
+        student: item.student.name,
+        email: item.student.email
+      };
+    });
+
     yield put(
       helpOrderSearchSuccess({
-        data: response.data.rows
+        data: newData,
+        count: response.data.count,
+        page
       })
     );
   } catch (err) {
@@ -46,6 +56,6 @@ export function* searchHelpOrder({ payload }) {
 }
 
 export default all([
-  takeLatest("@helpOrder/helpOrder_CREATE_REQUEST", createHelpOrder),
-  takeLatest("@helpOrder/helpOrder_SEARCH_REQUEST", searchHelpOrder)
+  takeLatest("@helpOrder/HELPORDER_CREATE_REQUEST", createHelpOrder),
+  takeLatest("@helpOrder/HELPORDER_SEARCH_REQUEST", searchHelpOrder)
 ]);

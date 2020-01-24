@@ -1,8 +1,8 @@
+/* eslint-disable consistent-return */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MdAdd } from "react-icons/md";
 import {
   helpOrderSearchRequest,
   helpOrderCreateRequest
@@ -12,13 +12,10 @@ import Modal from "../../components/modal";
 import Header from "../../components/base/header";
 import BaseContent from "../../components/base/baseContent";
 import Content from "../../components/content";
-import CustomButton from "../../components/buttons/customButton";
 import Table from "../../components/table/structure";
 import Loading from "../../components/loading";
 import ListController from "../../components/ListController";
 import TableGenerator from "../../components/table/tableGenerator";
-
-import colors from "../../styles/colors";
 
 export default function HelpOrder() {
   const dispatch = useDispatch();
@@ -40,11 +37,11 @@ export default function HelpOrder() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, helpOrders.count, helpOrders.page]);
 
-  async function confirmDelete(data) {
-    const func = await Modal(data);
+  async function confirmAnswer(data) {
+    const response = await Modal(data);
 
-    if (func) {
-      dispatch(helpOrderCreateRequest({ id: data.id }));
+    if (response) {
+      dispatch(helpOrderCreateRequest({ id: data.id, answer: response }));
     }
   }
 
@@ -52,18 +49,7 @@ export default function HelpOrder() {
     <>
       <BaseContent>
         <Header>
-          <h1>Gerenciando matrículas</h1>
-          <div>
-            <Link to="/helpOrders/new">
-              <CustomButton
-                color={colors.buttonPageHeaderPrimary}
-                type="button"
-              >
-                <MdAdd size={24} color="#fff" />
-                CADASTRAR
-              </CustomButton>
-            </Link>
-          </div>
+          <h1>Pedidos de auxílio</h1>
         </Header>
 
         <Content>
@@ -82,28 +68,27 @@ export default function HelpOrder() {
                     <TableGenerator
                       key={helpOrder.id}
                       data={helpOrder}
-                      onRemove={() => confirmDelete()}
                       path={`/helpOrders/edit/${helpOrder.id}`}
                       onConfirm={() =>
-                        confirmDelete({
+                        confirmAnswer({
                           id: helpOrder.id,
                           input: "textarea",
                           title: "PERGUNTA DO ALUNO",
-                          inputAttributes: {
-                            "aria-label": "Sua resposta"
-                          },
                           inputPlaceholder: "Sua resposta",
-                          text:
-                            "Eu me chamo jonathan e nao sei oq fazer e por onde começar?",
-                          confirmText: "Deletar",
+                          text: helpOrder.question,
                           cancelText: "Cancelar",
                           showCancelButton: true,
-                          confirmButtonText: "Look up",
+                          confirmButtonText: "Responder",
                           showLoaderOnConfirm: true,
-                          finalText: "Deletado com sucesso!"
+                          finalText: "Aluno respondido com sucesso!",
+                          inputValidator: value => {
+                            if (!value) {
+                              return "Não atende aos requisitos";
+                            }
+                          }
                         })
                       }
-                      fields={["NAME"]}
+                      fields={["student", "question"]}
                     />
                   ))}
                 </tbody>

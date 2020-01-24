@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { MdCheckCircle, MdCancel } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 import TextLink from "../../buttons/TextLink";
 import color from "../../../styles/colors";
 
@@ -13,6 +14,7 @@ export default function TableGenerator({
   fields,
   onSearch
 }) {
+  const location = useLocation();
   return (
     <tr>
       {onSearch
@@ -28,12 +30,26 @@ export default function TableGenerator({
             )
           )}
       <td>
-        <TextLink to={path} color={color.editTable}>
-          editar
-        </TextLink>
-        <TextLink type="button" onClick={onConfirm} color={color.deleteTable}>
-          apagar
-        </TextLink>
+        {location.pathname === "/help-orders" ? (
+          <>
+            <TextLink type="button" onClick={onConfirm} color={color.editTable}>
+              responder
+            </TextLink>
+          </>
+        ) : (
+          <>
+            <TextLink to={path} color={color.editTable}>
+              editar
+            </TextLink>
+            <TextLink
+              type="button"
+              onClick={onConfirm}
+              color={color.deleteTable}
+            >
+              apagar
+            </TextLink>
+          </>
+        )}
       </td>
     </tr>
   );

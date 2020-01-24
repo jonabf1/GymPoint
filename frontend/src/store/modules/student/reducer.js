@@ -27,7 +27,6 @@ export default function student(state = INITIAL_STATE, action) {
         break;
       }
       case "@student/STUDENT_CREATE_SUCCESS": {
-        state.students.list.push(action.payload.data);
         draft.students.loading = false;
         break;
       }
@@ -49,11 +48,10 @@ export default function student(state = INITIAL_STATE, action) {
         break;
       }
       case "@student/STUDENT_DELETE_SUCCESS": {
-        const filter = state.students.list.filter(
-          i => i.id !== action.payload.id
+        draft.students.list = state.students.list.filter(
+          i => i.id !== action.payload.data.id
         );
 
-        draft.students.list = filter;
         draft.students.loading = false;
         break;
       }

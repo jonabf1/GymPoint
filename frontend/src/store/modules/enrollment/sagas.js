@@ -31,7 +31,7 @@ export function* deleteEnrollments({ payload }) {
   try {
     yield call(api.delete, `/enrollments/${payload.data.id}`);
 
-    yield put(enrollmentDeleteSuccess(payload.id));
+    yield put(enrollmentDeleteSuccess({ id: payload.data.id }));
   } catch (err) {
     yield put(enrollmentFailure());
     toast.error("Ocorreu um erro na requisição");

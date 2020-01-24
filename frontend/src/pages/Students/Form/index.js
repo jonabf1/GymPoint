@@ -48,7 +48,6 @@ export default function StudentForm() {
 
   function handleSubmit(data) {
     if (id) {
-      console.log("entrou");
       dispatch(studentUpdateRequest({ ...data, id }));
     } else {
       dispatch(studentCreateRequest(data));

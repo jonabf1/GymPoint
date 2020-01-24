@@ -19,7 +19,6 @@ export default function helpOrder(state = INITIAL_STATE, action) {
         break;
       }
       case "@helpOrder/HELPORDER_CREATE_SUCCESS": {
-        state.helpOrders.list.push(action.payload.data);
         draft.helpOrders.loading = false;
         break;
       }

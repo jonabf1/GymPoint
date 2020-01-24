@@ -27,7 +27,6 @@ export default function plan(state = INITIAL_STATE, action) {
         break;
       }
       case "@plan/PLAN_CREATE_SUCCESS": {
-        state.plans.list.push(action.payload.data);
         draft.plans.loading = false;
         break;
       }
@@ -51,7 +50,7 @@ export default function plan(state = INITIAL_STATE, action) {
       }
       case "@plan/PLAN_DELETE_SUCCESS": {
         draft.plans.list = state.plans.list.filter(
-          i => i.id !== action.payload.id
+          i => i.id !== action.payload.data.id
         );
         draft.plans.loading = false;
         break;

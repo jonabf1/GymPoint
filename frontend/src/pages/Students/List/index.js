@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdAdd, MdKeyboardBackspace } from "react-icons/md";
@@ -115,6 +116,7 @@ export default function StudentList() {
               placeholder="Buscar aluno"
               styles={CustomStyle}
               onChange={e => setStudentSelected(e)}
+              noOptionsMessage={() => "Digite para procurar um estudante"}
               loadOptions={loadStudents}
               onInputChange={v => setStudentSearchName(v)}
             />

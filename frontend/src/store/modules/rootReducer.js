@@ -4,11 +4,13 @@ import student from "./student/reducer";
 import plan from "./plan/reducer";
 import enrollment from "./enrollment/reducer";
 import helpOrder from "./helpOrder/reducer";
+import user from "./user/reducer";
 
 export default combineReducers({
   student,
   enrollment,
   helpOrder,
   plan,
-  auth
+  auth,
+  user
 });

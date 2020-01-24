@@ -19,15 +19,25 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/home" component={Home} isPrivate />
 
-      <Route path="/students/list" component={StudentList} isPrivate />
-      <Route path="/students/edit/:id" component={StudentForm} isPrivate />
-      <Route path="/students/new" component={StudentForm} isPrivate />
+      <Route path="/students/list" exact component={StudentList} isPrivate />
+      <Route
+        path="/students/edit/:id"
+        exact
+        component={StudentForm}
+        isPrivate
+      />
+      <Route path="/students/new" exact component={StudentForm} isPrivate />
 
-      <Route path="/plans/list" component={PlanList} isPrivate />
-      <Route path="/plans/edit/:id" component={PlanForm} isPrivate />
-      <Route path="/plans/new" component={PlanForm} isPrivate />
+      <Route path="/plans/list" exact component={PlanList} isPrivate />
+      <Route path="/plans/edit/:id" exact component={PlanForm} isPrivate />
+      <Route path="/plans/new" exact component={PlanForm} isPrivate />
 
-      <Route path="/enrollments/list" component={EnrollmentsList} isPrivate />
+      <Route
+        path="/enrollments/list"
+        exact
+        component={EnrollmentsList}
+        isPrivate
+      />
       <Route
         path="/enrollments/edit/:id"
         component={EnrollmentsForm}
@@ -35,9 +45,7 @@ export default function Routes() {
       />
       <Route path="/enrollments/new" component={EnrollmentsForm} isPrivate />
 
-      <Route path="/help-orders" component={HelpOrder} isPrivate />
-
-      <Route path="/" component={() => <h1>Página não encontrada</h1>} />
+      <Route path="/help-orders" exact component={HelpOrder} isPrivate />
     </Switch>
   );
 }

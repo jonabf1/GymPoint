@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../../assets/logo-header.svg";
 import { Container, Profile, Content, Link } from "./styles";
 import { signOut } from "../../store/modules/auth/actions";
@@ -7,6 +7,7 @@ import color from "../../styles/colors";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.profile);
 
   return (
     <Container>
@@ -44,7 +45,7 @@ export default function Header() {
               activeStyle={{
                 color: color.buttonPageHeaderPrimary
               }}
-              to="/help-orders/list"
+              to="/help-orders"
             >
               PEDIDOS DE AUXÍLIO
             </Link>
@@ -52,7 +53,7 @@ export default function Header() {
         </aside>
 
         <Profile>
-          <strong>Jonathan Barros Franco</strong>
+          <strong>{user.name || user.email}</strong>
           <button onClick={() => dispatch(signOut())} type="button">
             sair do sistema
           </button>

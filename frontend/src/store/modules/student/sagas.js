@@ -18,7 +18,7 @@ export function* createStudents({ payload }) {
 
     toast.success(`Estudante criado com sucesso`);
 
-    history.push('/students/list')
+    history.push("/students/list");
     yield put(studentCreateSuccess(response.data));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
@@ -30,7 +30,7 @@ export function* deleteStudents({ payload }) {
   try {
     yield call(api.delete, `/students/${payload.data.id}`);
 
-    yield put(studentDeleteSuccess(payload.id));
+    yield put(studentDeleteSuccess({ id: payload.data.id }));
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");
     yield put(studentFailure());
@@ -67,7 +67,7 @@ export function* updateStudents({ payload }) {
 
     toast.success("Estudante editado com sucesso");
 
-    history.push('/students/list')
+    history.push("/students/list");
     yield put(studentUpdateSuccess());
   } catch (err) {
     toast.error("Ocorreu um erro na requisição");

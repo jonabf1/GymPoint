@@ -27,7 +27,6 @@ export default function enrollment(state = INITIAL_STATE, action) {
         break;
       }
       case "@enrollment/ENROLLMENT_CREATE_SUCCESS": {
-        state.enrollments.list.push(action.payload.data);
         draft.enrollments.loading = false;
         break;
       }
@@ -49,11 +48,10 @@ export default function enrollment(state = INITIAL_STATE, action) {
         break;
       }
       case "@enrollment/ENROLLMENT_DELETE_SUCCESS": {
-        const filter = state.enrollments.list.filter(
-          i => i.id !== action.payload.id
+        draft.enrollments.list = state.enrollments.list.filter(
+          i => i.id !== action.payload.data.id
         );
 
-        draft.enrollments.list = filter;
         draft.enrollments.loading = false;
         break;
       }

@@ -7,7 +7,6 @@ export default async function Modal({
   confirmText,
   cancelText,
   finalText,
-  icon,
   inputPlaceholder,
   ...rest
 }) {
@@ -15,7 +14,6 @@ export default async function Modal({
   await Swal.fire({
     title,
     text,
-    icon,
     inputPlaceholder,
     showCancelButton: true,
     confirmButtonColor: color.buttonPageHeaderPrimary,
