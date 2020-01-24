@@ -19,11 +19,10 @@ This project is a real application for managing a gym.
 
 <p align="center">
   <img alt="" src="frontend/public/email1.png">
+  <br>
   <small>Route **Create enrollment**</small>
-</p>
-
-<p align="center">
   <img alt="" src="frontend/public/email2.png">
+  <br>
     <small>Route **Create answer**</small>
 </p>
 
