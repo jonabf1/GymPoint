@@ -18,16 +18,8 @@ This project is a real application for managing a gym.
 ### :white_check_mark: Result in Backend
 
 <p align="center">
-      <div>
-      <img alt=""  width="200px" src="frontend/public/email1.png">
-      <br>
-      <small>Route **Create enrollment**</small>
-      </div>
-      <div>
-      <img alt=""  width="200px" src="frontend/public/email2.png">
-      <br>
-      <small>Route **Create answer**</small>
-      </div>
+      <img alt=""  width="400px" src="frontend/public/email1.png">
+      <img alt=""  width="400px" src="frontend/public/email2.png">
 </p>
 
 ### :white_check_mark: Result in Frontend
