@@ -5,7 +5,7 @@
 ### :page_with_curl: About
 This project is a real application for managing a gym.
 
-#### To start, **Docker** is required
+#### To start, [**Docker**](https://www.docker.com/) is required
 
 ### :rocket: How to install and start 
 - `git clone https://github.com/jonabf1/GymPoint`
